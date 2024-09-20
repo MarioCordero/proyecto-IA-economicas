@@ -1,41 +1,41 @@
-import spacy
-from geopy.geocoders import Nominatim
+from fileManager import cargar_datos_xls
 
-# Cargar el modelo de lenguaje en español de spaCy
-nlp = spacy.load("es_core_news_md")
+def determinar_origen(antecedente):
+    """
+    Determina el origen de la propuesta según el antecedente.
+    """
+    if "docente" in antecedente.lower() or "estudiante" in antecedente.lower():
+        return "Propuesto por la Universidad"
+    elif "institución" in antecedente.lower() or "grupo" in antecedente.lower() or "solicitud" in antecedente.lower():
+        return "Solicitado por una Entidad Externa"
+    else:
+        return "Origen Desconocido"
 
-# Cargar el geolocalizador para ubicar distritos
-geolocator = Nominatim(user_agent="geoapiExercises")
+def indicador_pertinencia(origen):
+    """
+    Calcula el indicador de pertinencia. Si fue solicitado por una entidad externa,
+    se considera pertinente.
+    """
+    if origen == "Solicitado por una Entidad Externa":
+        return "Pertinente"
+    else:
+        return "No Pertinente"
 
-# Lista de distritos más pobres de Costa Rica (ejemplo)
-distritos_pobres = ["Distrito 1", "Distrito 2", "Distrito 3"]
+# Cargar los datos del archivo XLS
+ruta_archivo = "ruta/del/archivo.xls"
+actividades = cargar_datos_xls(ruta_archivo)
 
-# Texto de ejemplo (este texto vendría del informe)
-texto = """
-    En el distrito de Distrito 1 se realizaron dos obras de teatro,
-    mientras que en el Distrito 3 hubo una presentación de danza.
-    Además, en el Distrito 2 se organizó un evento cultural.
-"""
-
-# Procesar el texto con spaCy
-doc = nlp(texto)
-
-# Extraer las actividades culturales y sus ubicaciones
-actividades = []
-for sent in doc.sents:
-    actividades_encontradas = []
-    distritos_encontrados = []
-    for ent in sent.ents:
-        if ent.label_ == "LOC":  # spaCy detecta ubicaciones
-            distritos_encontrados.append(ent.text)
-        if "teatro" in sent.text or "danza" in sent.text or "evento cultural" in sent.text:
-            actividades_encontradas.append(sent.text)
+# Procesar las actividades
+for actividad in actividades:
+    antecedentes = actividad['antecedentes']
     
-    if distritos_encontrados and actividades_encontradas:
-        for distrito in distritos_encontrados:
-            if distrito in distritos_pobres:
-                actividades.append((distrito, actividades_encontradas))
-
-# Mostrar resultados
-for distrito, actividad in actividades:
-    print(f"En {distrito}, se realizaron las siguientes actividades culturales: {actividad}")
+    # Determinar el origen de la actividad
+    origen = determinar_origen(antecedentes)
+    
+    # Calcular el indicador de pertinencia
+    pertinencia = indicador_pertinencia(origen)
+    
+    # Mostrar resultados
+    print(f"Actividad: {actividad['nombre']}")
+    print(f"Origen: {origen}")
+    print(f"Pertinencia: {pertinencia}\n")

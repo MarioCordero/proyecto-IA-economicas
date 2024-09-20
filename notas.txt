@@ -1,8 +1,8 @@
 Todo el proceso de instalacion
 
-python3 -m venv entornoIAEconomia
+python3 -m venv IA-Entorno-Economia
 
-source entornoIAEconomia/bin/activate
+source IA-Entorno-Economia/bin/activate
 
 python3 prueba.py
 
@@ -10,5 +10,4 @@ pip install spacy
 
 pip install geopy
 
-python -m spacy download es_core_news_md
-
+python3 -m spacy download es_core_news_md
