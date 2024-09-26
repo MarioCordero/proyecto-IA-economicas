@@ -25,3 +25,20 @@ pip install pandas
 pip install openpyxl
 
 python .\src\main.py
+
+
+project/
+│
+├── model/
+│   ├── __init__.py
+│   ├── file_model.py         # Contiene la lógica de negocio relacionada con los archivos.
+│
+├── view/
+│   ├── __init__.py
+│   ├── file_view.py          # Contiene la interfaz de usuario y la visualización.
+│
+├── controller/
+│   ├── __init__.py
+│   ├── file_controller.py     # Gestiona la interacción entre el modelo y la vista.
+│
+└── main.py                   # Punto de entrada de la aplicación.
