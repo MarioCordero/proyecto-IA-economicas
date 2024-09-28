@@ -4,18 +4,18 @@ from tkinter import filedialog
 from view.fileView import FileView
 
 class FileController:
+    # """
+    #    Inicializa la controladora creando la vista y configurando los manejadores de eventos.
+    #    """
     def __init__(self):
-        """
-        Inicializa la controladora creando la vista y configurando los manejadores de eventos.
-        """
         # Crear la vista y pasar esta instancia como su controlador
         self.view = FileView(self)
         self.file_path = None
 
+    #    """
+    #    Muestra el cuadro de diálogo para seleccionar un archivo, actualiza la vista con la ruta seleccionada.
+    #    """
     def select_file(self):
-        """
-        Muestra el cuadro de diálogo para seleccionar un archivo, actualiza la vista con la ruta seleccionada.
-        """
         file_path = filedialog.askopenfilename(
             title="Seleccionar archivo",
             filetypes=(("Archivos Excel", "*.xlsx *.xls"), ("Todos los archivos", "*.*"))
@@ -27,25 +27,25 @@ class FileController:
         else:
             print("No se seleccionó ningún archivo o el archivo no existe.")
 
+    #    """
+    #    Analiza el archivo seleccionado. Esta función se ejecuta cuando el usuario hace clic en el botón 'Analizar'.
+    #    """
     def analyze_file(self):
-        """
-        Analiza el archivo seleccionado. Esta función se ejecuta cuando el usuario hace clic en el botón 'Analizar'.
-        """
         if self.file_path:
             print(f"Analizando el archivo: {self.file_path}")
             self.analyze_data(self.file_path)
         else:
             print("No se ha seleccionado ningún archivo para analizar.")
 
+    #    """
+    #    Lógica para procesar y analizar el archivo seleccionado.
+    #    """
     def analyze_data(self, file_path):
-        """
-        Lógica para procesar y analizar el archivo seleccionado.
-        """
         print(f"Procesando y analizando los datos del archivo {file_path}...")
         # Aquí iría la lógica de IA o procesamiento de datos
 
+    #    """
+    #    Inicia la vista (la interfaz gráfica).
+    #    """
     def run(self):
-        """
-        Inicia la vista (la interfaz gráfica).
-        """
         self.view.run()
