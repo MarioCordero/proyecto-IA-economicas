@@ -1,4 +1,4 @@
-from controller.fileController import FileController
+from controller.Controller import FileController
 
 def main():
     # Crear la controladora y correr el programa

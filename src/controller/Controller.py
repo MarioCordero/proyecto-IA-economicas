@@ -1,16 +1,16 @@
 import os
 import tkinter as tk
 from tkinter import filedialog
-from view.fileView import FileView
+from view.View import View
 
 class FileController:
-    # """
-    #    Inicializa la controladora creando la vista y configurando los manejadores de eventos.
-    #    """
-    def __init__(self):
-        # Crear la vista y pasar esta instancia como su controlador
-        self.view = FileView(self)
+    #   """
+    #   Inicializa la controladora creando la vista y configurando los manejadores de eventos.
+    #   """
+    def __init__(self): # Constructora de la clase (self) es una referencia de la clase a si misma para empezar a construirse
+        self.view = View(self) 
         self.file_path = None
+        print("Controladora construida!")
 
     #    """
     #    Muestra el cuadro de diálogo para seleccionar un archivo, actualiza la vista con la ruta seleccionada.
