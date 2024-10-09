@@ -3,9 +3,10 @@ import tkinter as tk
 from tkinter import filedialog
 from view.View import View
 
-class FileController:
+class Controller:
+
     #   """
-    #   Inicializa la controladora creando la vista y configurando los manejadores de eventos.
+    #   Constructor de cointroller
     #   """
     def __init__(self): # Constructora de la clase (self) es una referencia de la clase a si misma para empezar a construirse
         self.view = View(self) 
