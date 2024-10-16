@@ -6,9 +6,15 @@ python3 -m venv IA-Entorno-Economia
 
 source IA-Entorno-Economia/bin/activate
 
-pip install spacy
+pip install pandas
 
 pip install geopy
+
+pip install openpyxl
+
+pip install spacy
+
+pip install pymongo
 
 python3 -m spacy download es_core_news_md
 
@@ -22,7 +28,13 @@ python -m venv IA-Entorno-Economia
 
 pip install pandas
 
+pip install geopy
+
 pip install openpyxl
+
+pip install spacy
+
+pip install pymongo
 
 python .\src\main.py
 
@@ -33,14 +45,14 @@ project/
 │
 ├── model/
 │   ├── __init__.py
-│   ├── file_model.py         # Contiene la lógica de negocio relacionada con los archivos.
+│   ├── Model.py         # Contiene la lógica de negocio relacionada con los archivos.
 │
 ├── view/
 │   ├── __init__.py
-│   ├── file_view.py          # Contiene la interfaz de usuario y la visualización.
+│   ├── View.py          # Contiene la interfaz de usuario y la visualización.
 │
 ├── controller/
 │   ├── __init__.py
-│   ├── file_controller.py     # Gestiona la interacción entre el modelo y la vista.
+│   ├── Controller.py     # Gestiona la interacción entre el modelo y la vista.
 │
 └── main.py                   # Punto de entrada de la aplicación.
