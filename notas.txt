@@ -36,6 +36,8 @@ pip install spacy
 
 pip install pymongo
 
+pip install pyqt5
+
 python .\src\main.py
 
 

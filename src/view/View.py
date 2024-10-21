@@ -1,50 +1,83 @@
-import tkinter as tk
-from tkinter import filedialog
+import sys
+from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QPushButton, QVBoxLayout, QFileDialog
+from PyQt5.QtGui import QPixmap
+from PyQt5.QtCore import Qt
 
-class View:
+class View(QWidget):
 
-    #    """
-    #    Constructor del View
-    #    """
     def __init__(self, controller):
+        super().__init__()
         self.controller = controller
-        self.window = tk.Tk()
-        self.window.title("Análisis de datos ECC 2024")
+        self.initUI() # Initialize the User Interface
 
-        self.center_window(400, 200) # Centrar la ventana con 400px x 200px
+    def initUI(self):
+        self.setWindowTitle("Análisis de datos ECC 2024")
+        self.setGeometry(100, 100, 1080, 700)  # Set the initial size and position of the window
 
-        self.label_ruta = tk.Label(self.window, text="Ningún archivo seleccionado")
-        self.label_ruta.pack(pady=10)
+        self.background_label = QLabel(self) # Set the background image
+        pixmap = QPixmap("../assets/background.png")
+        self.background_label.setPixmap(pixmap)
+        self.background_label.setScaledContents(True)
+        self.background_label.setGeometry(0, 0, 1080, 700)  # Adjust to cover the entire window
 
-        self.boton_adjuntar = tk.Button(self.window, text="Adjuntar archivo", command=self.controller.select_file)
-        self.boton_adjuntar.pack(pady=10)
+        # Create layout
+        self.layout = QVBoxLayout(self)
 
-        self.boton_analizar = tk.Button(self.window, text="Analizar", command=self.controller.analyze_file)
-        self.boton_analizar.pack(pady=10)
+        # Create label to display selected file path
+        self.label_ruta = QLabel("Ningún archivo seleccionado", self)
+        self.layout.addWidget(self.label_ruta, alignment=Qt.AlignCenter)
 
-        self.boton_analizar.pack_forget() # Ocultar hasta que se seleccione un archivo
+        # Create "Adjuntar archivo" button
+        self.boton_adjuntar = QPushButton("Adjuntar archivo", self)
+        self.boton_adjuntar.clicked.connect(self.controller.select_file)
+        self.layout.addWidget(self.boton_adjuntar, alignment=Qt.AlignCenter)
 
+        # Create "Analizar" button
+        self.boton_analizar = QPushButton("Analizar", self)
+        self.boton_analizar.clicked.connect(self.controller.analyze_file)
+        self.layout.addWidget(self.boton_analizar, alignment=Qt.AlignCenter)
+        self.boton_analizar.hide()  # Initially hide the button until a file is selected
 
-    #    """
-    #    Centra la ventana en la pantalla
-    #    """
-    def center_window(self, width=400, height=200):
-        screen_width = self.window.winfo_screenwidth()
-        screen_height = self.window.winfo_screenheight()
-        x = (screen_width // 2) - (width // 2)
-        y = (screen_height // 2) - (height // 2)
-        self.window.geometry(f"{width}x{height}+{x}+{y}")
+        self.setLayout(self.layout)
 
-    #    """
-    #    Actualiza la etiqueta con la ruta del archivo seleccionado y muestra el botón 'Analizar'
-    #    """
     def update_label(self, file_path):
-        self.label_ruta.config(text=f"Archivo seleccionado: {file_path}")
-        self.boton_analizar.pack(pady=10)  # Mostrar el botón 'Analizar'
+        self.label_ruta.setText(f"Archivo seleccionado: {file_path}")
+        self.boton_analizar.show()  # Show the "Analizar" button
 
-
-    #    """
-    #    Inicia la interfaz gráfica
-    #    """
     def run(self):
-        self.window.mainloop()
+        self.show()
+
+class Controller:
+    def __init__(self):
+        self.view = View(self)
+        self.file_path = None
+        print("Controladora construida!")
+
+    def select_file(self):
+        options = QFileDialog.Options()
+        file_path, _ = QFileDialog.getOpenFileName(self.view, "Seleccionar archivo", "", "Archivos Excel (*.xlsx *.xls);;Todos los archivos (*)", options=options)
+        if file_path:
+            self.file_path = file_path  # Save the selected file path
+            self.view.update_label(file_path)  # Update the view
+        else:
+            print("No se seleccionó ningún archivo o el archivo no existe.")
+
+    def analyze_file(self):
+        if self.file_path:
+            print(f"Analizando el archivo: {self.file_path}")
+            self.analyze_data(self.file_path)
+        else:
+            print("No se ha seleccionado ningún archivo para analizar.")
+
+    def analyze_data(self, file_path):
+        print(f"Procesando y analizando los datos del archivo {file_path}...")
+        # Aquí iría la lógica de IA o procesamiento de datos
+
+    def run(self):
+        self.view.run()
+
+if __name__ == '__main__':
+    app = QApplication(sys.argv)
+    controller = Controller()
+    controller.run()
+    sys.exit(app.exec_())

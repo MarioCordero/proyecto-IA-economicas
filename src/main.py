@@ -1,10 +1,17 @@
+import sys
+from PyQt5.QtWidgets import QApplication
 from controller.Controller import Controller
 
 def main():
+    # Inicializa QApplication antes de cualquier QWidget
+    app = QApplication(sys.argv)
+
     # Crear la controladora y correr el programa
     controller = Controller()
     controller.run()
-    print("Se ha acabado la ejecución")
+
+    # Ejecuta el evento de la aplicación
+    sys.exit(app.exec_())
 
 if __name__ == "__main__":
     main()
