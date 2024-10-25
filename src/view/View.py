@@ -1,7 +1,6 @@
-import sys
-from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QPushButton, QVBoxLayout, QFileDialog
+from PyQt5.QtWidgets import QVBoxLayout, QHBoxLayout, QLabel, QPushButton, QWidget
 from PyQt5.QtGui import QPixmap
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import QRect, Qt
 
 class View(QWidget):
 
@@ -12,33 +11,70 @@ class View(QWidget):
 
     def initUI(self):
         self.setWindowTitle("Análisis de datos ECC 2024")
-        self.setGeometry(100, 100, 1080, 700)  # Set the initial size and position of the window
+        self.setFixedSize(1080, 700)  # On this way, u can't resize
 
-        self.background_label = QLabel(self) # Set the background image
+        self.mainLayout = QVBoxLayout(self) #Main vertical layout in PyQt
+        self.mainLayout.setContentsMargins(0, 0, 0, 0)  # Remove all margins
+        self.mainLayout.setSpacing(0)  # Remove any spacing between widgets
+
+        self.backgroundLabel = QLabel(self) # Background label setup
         pixmap = QPixmap("../assets/background.png")
-        self.background_label.setPixmap(pixmap)
-        self.background_label.setScaledContents(True)
-        self.background_label.setGeometry(0, 0, 1080, 700)  # Adjust to cover the entire window
 
-        # Create layout
-        self.layout = QVBoxLayout(self)
+        cropRect = QRect(300, 0, pixmap.width(), int(pixmap.height())) # Define the crop area (e.g., top part of the image) QRect(x, y, width, height)
+        croppedPixmap = pixmap.copy(cropRect)
 
-        # Create label to display selected file path
-        self.label_ruta = QLabel("Ningún archivo seleccionado", self)
-        self.layout.addWidget(self.label_ruta, alignment=Qt.AlignCenter)
+        scaledPixmap = croppedPixmap.scaled(self.size(), Qt.KeepAspectRatioByExpanding, Qt.SmoothTransformation) # Scale the cropped pixmap to cover the window
+        self.backgroundLabel.setPixmap(scaledPixmap)
+        self.backgroundLabel.resize(1080, 700)
 
-        # Create "Adjuntar archivo" button
-        self.boton_adjuntar = QPushButton("Adjuntar archivo", self)
-        self.boton_adjuntar.clicked.connect(self.controller.select_file)
-        self.layout.addWidget(self.boton_adjuntar, alignment=Qt.AlignCenter)
+        self.mainLayout.addWidget(self.backgroundLabel) # Add the background label as the first widget to fill the entire window
 
-        # Create "Analizar" button
-        self.boton_analizar = QPushButton("Analizar", self)
-        self.boton_analizar.clicked.connect(self.controller.analyze_file)
-        self.layout.addWidget(self.boton_analizar, alignment=Qt.AlignCenter)
-        self.boton_analizar.hide()  # Initially hide the button until a file is selected
+        self.overlay = QWidget(self) # Create a white-transparent overlay
+        self.overlay.setAttribute(Qt.WA_TransparentForMouseEvents)  # Allow mouse events to pass through the overlay
+        self.overlay.setStyleSheet("background-color: rgba(255, 255, 255, 0.5);")  # White color with 50% transparency
+        self.overlay.setGeometry(self.backgroundLabel.geometry())  # Set the overlay to the same size as the background
 
-        self.setLayout(self.layout)
+        self.start = QPushButton("Empezar", self) # Create buttons
+        self.ayuda = QPushButton("Ayuda", self)
+        self.acerca = QPushButton("Acerca de", self)
+
+        # Set buttons styles
+        self.start.setStyleSheet("""
+            QPushButton {
+                background-color: #4CAF50; /* Green */
+                color: white;
+                border: none;
+                padding: 10px 20px;
+                font-size: 16px;
+                border-radius: 5px;
+            }
+            QPushButton:hover {
+                background-color: #45a049; /* Darker green */
+            }
+        """)
+
+        self.buttonLayout = QVBoxLayout() # Create a layout for the button and center it
+        self.buttonLayout.addWidget(self.start, alignment=Qt.AlignCenter)
+        
+        self.mainLayout.addLayout(self.buttonLayout) # Add the button layout on top of the main layout
+
+        # overlayLayout = QVBoxLayout(self.backgroundLabel) # Overlay layout for buttons and labels
+        # overlayLayout.setContentsMargins(0, 0, 10, 10)  # Add a small margin for the buttons if needed
+        # overlayLayout.setAlignment(Qt.AlignBottom | Qt.AlignRight)  # Align to bottom-right
+
+        # File path label and "Adjuntar archivo" button
+        # self.label_ruta = QLabel("Ningún archivo seleccionado", self)
+        # center_layout.addWidget(self.label_ruta, alignment=Qt.AlignCenter)
+
+        # self.boton_adjuntar = QPushButton("Adjuntar archivo", self)
+        # self.boton_adjuntar.clicked.connect(self.controller.select_file)
+        # center_layout.addWidget(self.boton_adjuntar, alignment=Qt.AlignCenter)
+
+        # # "Analizar" button on the bottom-right
+        # self.boton_analizar = QPushButton("Analizar", self)
+        # self.boton_analizar.clicked.connect(self.controller.analyze_file)
+        # bottom_right_layout.addWidget(self.boton_analizar)
+        # self.boton_analizar.hide()  # Hide initially until a file is selected
 
     def update_label(self, file_path):
         self.label_ruta.setText(f"Archivo seleccionado: {file_path}")
@@ -46,38 +82,3 @@ class View(QWidget):
 
     def run(self):
         self.show()
-
-class Controller:
-    def __init__(self):
-        self.view = View(self)
-        self.file_path = None
-        print("Controladora construida!")
-
-    def select_file(self):
-        options = QFileDialog.Options()
-        file_path, _ = QFileDialog.getOpenFileName(self.view, "Seleccionar archivo", "", "Archivos Excel (*.xlsx *.xls);;Todos los archivos (*)", options=options)
-        if file_path:
-            self.file_path = file_path  # Save the selected file path
-            self.view.update_label(file_path)  # Update the view
-        else:
-            print("No se seleccionó ningún archivo o el archivo no existe.")
-
-    def analyze_file(self):
-        if self.file_path:
-            print(f"Analizando el archivo: {self.file_path}")
-            self.analyze_data(self.file_path)
-        else:
-            print("No se ha seleccionado ningún archivo para analizar.")
-
-    def analyze_data(self, file_path):
-        print(f"Procesando y analizando los datos del archivo {file_path}...")
-        # Aquí iría la lógica de IA o procesamiento de datos
-
-    def run(self):
-        self.view.run()
-
-if __name__ == '__main__':
-    app = QApplication(sys.argv)
-    controller = Controller()
-    controller.run()
-    sys.exit(app.exec_())
