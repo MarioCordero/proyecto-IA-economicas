@@ -31,48 +31,17 @@ class View(QWidget):
         self.overlay.setStyleSheet("background-color: rgba(255, 255, 255, 0.5);")  # White color with 50% transparency
         self.overlay.setGeometry(self.backgroundLabel.geometry())  # Set the overlay to the same size as the background
 
+        logoLayout = QLabel()
+        eCCLogo = QPixmap("../assets/logo_EEC_grande.png")  # Path to your image above the button
+
+
         buttonsLayout = QVBoxLayout() # Create buttons layout (Layer #3) 
         start = QPushButton("Empezar", self)
-        start.move(10,100)
-        buttonsLayout.addWidget(start, alignment=Qt.AlignCenter)
+        xCenter = self.width() // 2 - start.width() // 2
+        yCenter = self.height() // 2 - start.height() // 2
+        start.move(xCenter, yCenter)
         
-
-
-        # self.ayuda = QPushButton("Ayuda", self)
-        # self.acerca = QPushButton("Acerca de", self)
-
-        # # Set buttons styles
-        # self.start.setStyleSheet("""
-        #     QPushButton {
-        #         background-color: #4CAF50; /* Green */
-        #         color: white;
-        #         border: none;
-        #         padding: 10px 20px;
-        #         font-size: 16px;
-        #         border-radius: 5px;
-        #     }
-        #     QPushButton:hover {
-        #         background-color: #45a049; /* Darker green */
-        #     }
-        # """)
-
-        # overlayLayout = QVBoxLayout(self.backgroundLabel) # Overlay layout for buttons and labels
-        # overlayLayout.setContentsMargins(0, 0, 10, 10)  # Add a small margin for the buttons if needed
-        # overlayLayout.setAlignment(Qt.AlignBottom | Qt.AlignRight)  # Align to bottom-right
-
-        # File path label and "Adjuntar archivo" button
-        # self.label_ruta = QLabel("Ningún archivo seleccionado", self)
-        # center_layout.addWidget(self.label_ruta, alignment=Qt.AlignCenter)
-
-        # self.boton_adjuntar = QPushButton("Adjuntar archivo", self)
-        # self.boton_adjuntar.clicked.connect(self.controller.select_file)
-        # center_layout.addWidget(self.boton_adjuntar, alignment=Qt.AlignCenter)
-
-        # # "Analizar" button on the bottom-right
-        # self.boton_analizar = QPushButton("Analizar", self)
-        # self.boton_analizar.clicked.connect(self.controller.analyze_file)
-        # bottom_right_layout.addWidget(self.boton_analizar)
-        # self.boton_analizar.hide()  # Hide initially until a file is selected
+        buttonsLayout.addWidget(start, alignment=Qt.AlignCenter)
 
     def update_label(self, file_path):
         self.label_ruta.setText(f"Archivo seleccionado: {file_path}")
