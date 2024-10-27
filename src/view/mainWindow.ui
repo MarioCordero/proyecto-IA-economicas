@@ -29,7 +29,7 @@
    <iconset>
     <normaloff>../../assets/logo_EEC_grande.png</normaloff>../../assets/logo_EEC_grande.png</iconset>
   </property>
-  <widget class="QWidget" name="mainLayout">
+  <widget class="QWidget" name="landingPage">
    <property name="enabled">
     <bool>true</bool>
    </property>
@@ -202,6 +202,18 @@
     <property name="text">
      <string>Acerca de</string>
     </property>
+   </widget>
+   <widget class="QStackedWidget" name="stackedWidget">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>1080</width>
+      <height>700</height>
+     </rect>
+    </property>
+    <widget class="QWidget" name="page"/>
+    <widget class="QWidget" name="page_2"/>
    </widget>
   </widget>
  </widget>

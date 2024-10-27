@@ -11,7 +11,11 @@ class View(QMainWindow):
         self.initUI() # Initialize the User Interface
 
     def initUI(self):
-        loadUi('view/eccProject.ui', self) # Load the GUI on QtDesigner
+        
+        loadUi('view/mainWindow.ui', self) # Load the main GUI, designed on QtDesigner
+
+        # self.landingPage = QWidget # Create a QWidget to the landing page   
+        # loadUi('view/lanfingPage.ui',self.landingPage)        
 
     def update_label(self, file_path):
         self.label_ruta.setText(f"Archivo seleccionado: {file_path}")
