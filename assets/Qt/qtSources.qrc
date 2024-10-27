@@ -1,0 +1,7 @@
+<RCC>
+  <qresource prefix="Images">
+    <file>../Images/logo_EEC_grande.png</file>
+    <file>../Images/BackgroundApp.png</file>
+    <file>../Images/background.png</file>
+  </qresource>
+</RCC>
