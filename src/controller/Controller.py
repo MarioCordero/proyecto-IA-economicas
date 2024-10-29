@@ -5,16 +5,16 @@ from view.View import View
 from model.Model import Model
 
 class Controller:
-    """
-    Constructor del Controller
-    """
+
+    #
+    # Constructor del Controller
+    #
     def __init__(self):
         """
         Inicializa la vista y el modelo.
         """
         self.view = View(self)  # Construye la vista y pasa la controladora por parámetro
         self.model = Model(self)  # Construye el modelo y pasa la controladora por parámetro
-        self.file_path = None  # Inicializa la ruta del archivo vacía
         print("Controladora construida!")
 
     def select_file(self):
@@ -83,8 +83,41 @@ class Controller:
             print(f"ID insertado en MongoDB: {inserted_id}")
             print("-" * 40)
 
+    def fetchData(self):
+        """
+        Fetch data from the model and display it in the databaseExplorer table.
+        """
+        # Clear the table first
+        self.view.databaseExplorer.tableWidget.clear()
+
+        # # Fetch data from the model (assumed to be a list of dictionaries)
+        # projects = self.model.fetchprojects()
+
+        # # Set the number of rows based on the data length
+        # self.view.tableWidget.setRowCount(len(projects))
+        # self.view.tableWidget.setColumnCount(len(projects[0]) if projects else 0)
+
+        # # Set column headers (you can customize as per your data keys)
+        # headers = ["Codigo Inscripcion", "Nombre", "Fecha Inicio", "Fecha Fin", 
+        #         "Area Academica", "Comunidades Indigenas", "Antecedentes",
+        #         "Poblacion", "Beneficios UCR", "Beneficios Poblacion",
+        #         "Evaluacion Proyecto", "Tematicas"]
+        # self.view.tableWidget.setHorizontalHeaderLabels(headers)
+
+        # # Populate the table with data
+        # for row, project in enumerate(projects):
+        #     for col, key in enumerate(headers):
+        #         # Convert None to empty string for display
+        #         item = str(project.get(key.lower(), ""))  # Assumes keys are lowercase
+        #         self.view.tableWidget.setItem(row, col, QTableWidgetItem(item))
+
+    #
+    # Controller logic
+    #
     def run(self):
         """
         Inicia la vista.
         """
         self.view.run()
+        self.view.landingPage.pushButton.clicked.connect(lambda: self.view.stackedWidget.setCurrentWidget(self.view.databaseExplorer)) # Connect "Empezar" button to show the databaseExplorer page
+        self.fetchData()  # Load data to the table

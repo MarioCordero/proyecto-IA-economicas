@@ -19,7 +19,6 @@ class Model:
         # Método para obtener un usuario por su ID
         return self.collection.find_one({"_id": user_id})
     
-    
     def insert_project(self, project_data):
         """
         Inserta un proyecto en la colección 'proyectos_vigentes'.
@@ -29,6 +28,13 @@ class Model:
     def insert_user(self, user_data):
         # Método para insertar un usuario
         return self.collection.insert_one(user_data).inserted_id
+
+    def fetchProjects(self):
+        """
+        Retrieve projects from the database.
+        """
+        projects = self.collection.find({})
+        return [project for project in projects]  # List of dictionaries
 
     def set_file_path(self, path):
         self.file_path = path
