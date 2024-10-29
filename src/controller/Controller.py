@@ -1,6 +1,6 @@
 import os
 import openpyxl
-from PyQt5.QtWidgets import QFileDialog
+from PyQt5.QtWidgets import QFileDialog, QTableWidgetItem, QPushButton
 from view.View import View
 from model.Model import Model
 
@@ -87,29 +87,24 @@ class Controller:
         """
         Fetch data from the model and display it in the databaseExplorer table.
         """
-        # Clear the table first
-        self.view.databaseExplorer.tableWidget.clear()
+        self.view.databaseExplorer.tableWidget.clear() # Clear the table first
 
-        # # Fetch data from the model (assumed to be a list of dictionaries)
-        # projects = self.model.fetchprojects()
+        projects = self.model.fetchProjects() # Fetch data from the model (assumed to be a list of dictionaries)
 
-        # # Set the number of rows based on the data length
-        # self.view.tableWidget.setRowCount(len(projects))
-        # self.view.tableWidget.setColumnCount(len(projects[0]) if projects else 0)
+        self.view.databaseExplorer.tableWidget.setRowCount(len(projects)) # Set the number of rows based on the data length
+        self.view.databaseExplorer.tableWidget.setColumnCount(len(projects[0]) if projects else 0)
 
-        # # Set column headers (you can customize as per your data keys)
-        # headers = ["Codigo Inscripcion", "Nombre", "Fecha Inicio", "Fecha Fin", 
-        #         "Area Academica", "Comunidades Indigenas", "Antecedentes",
-        #         "Poblacion", "Beneficios UCR", "Beneficios Poblacion",
-        #         "Evaluacion Proyecto", "Tematicas"]
-        # self.view.tableWidget.setHorizontalHeaderLabels(headers)
+        headers = ["Codigo Inscripcion", "Nombre", "Analisis de Proyecto"] # Set up table with the specific columns
+        self.view.databaseExplorer.tableWidget.setRowCount(len(projects))
+        self.view.databaseExplorer.tableWidget.setColumnCount(len(headers))
+        self.view.databaseExplorer.tableWidget.setHorizontalHeaderLabels(headers)
 
-        # # Populate the table with data
-        # for row, project in enumerate(projects):
-        #     for col, key in enumerate(headers):
-        #         # Convert None to empty string for display
-        #         item = str(project.get(key.lower(), ""))  # Assumes keys are lowercase
-        #         self.view.tableWidget.setItem(row, col, QTableWidgetItem(item))
+        for row, project in enumerate(projects): # Populate the table with data and add buttons in the "Analisis de Proyecto" column
+            self.view.databaseExplorer.tableWidget.setItem(row, 0, QTableWidgetItem(str(project.get("codigo_inscripcion", "")))) # Set the "Codigo Inscripcion" and "Nombre" columns
+            self.view.databaseExplorer.tableWidget.setItem(row, 1, QTableWidgetItem(str(project.get("nombre", ""))))
+            analysisButton = QPushButton("Ver Análisis") # Add a button to the "Analisis de Proyecto" column
+            analysisButton.clicked.connect(lambda _, r=row: self.showProjectDetails(projects[r]))
+            self.view.databaseExplorer.tableWidget.setCellWidget(row, 2, analysisButton)
 
     #
     # Controller logic

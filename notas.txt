@@ -58,3 +58,12 @@ project/
 │   ├── Controller.py     # Gestiona la interacción entre el modelo y la vista.
 │
 └── main.py                   # Punto de entrada de la aplicación.
+
+------------------------------------Levantar MongoDB-----------------------------------------
+sudo systemctl start mongod
+
+# para acceder a la base de datos
+
+mongosh
+
+use DB_EEc
