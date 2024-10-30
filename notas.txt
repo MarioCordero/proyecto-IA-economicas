@@ -67,3 +67,9 @@ sudo systemctl start mongod
 mongosh
 
 use DB_EEc
+
+Analizar patrones de antecedentes para poder ver como se puede categorizar cada proyecto
+
+Programar etiquetas
+
+2018-2024 Incluir 2024 nada mas
