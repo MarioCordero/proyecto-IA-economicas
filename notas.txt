@@ -18,6 +18,12 @@ pip install pymongo
 
 python3 -m spacy download es_core_news_md
 
+python -m spacy download es_core_news_sm
+
+pip install beautifulsoup4
+
+pip install scikit-learn
+
 python3 src/main.py
 
 WINDOWS------------------------------------
@@ -60,6 +66,7 @@ project/
 └── main.py                   # Punto de entrada de la aplicación.
 
 ------------------------------------Levantar MongoDB-----------------------------------------
+
 sudo systemctl start mongod
 
 # para acceder a la base de datos
@@ -68,8 +75,48 @@ mongosh
 
 use DB_EEc
 
+# listar lo que hay en la collecion
+
+db.proyectos_vigentes.find()
+
+# borrar las entradas
+
+db.proyectos_vigentes.drop()
+
+# listar antecedentes
+
+db.proyectos_vigentes.find({}, { antecedentes: 1, _id: 0 })
+
+
+-------------------------------------------------OBSERVACIONES--------------------------------
+
 Analizar patrones de antecedentes para poder ver como se puede categorizar cada proyecto
 
 Programar etiquetas
 
 2018-2024 Incluir 2024 nada mas
+
+Tomar en cuenta parrafos para la busqueda de patrones
+
+
+1. Normalización del Texto
+- [x] Convertir el texto a minúsculas: Esto facilita la comparación de palabras y patrones.
+- [x] Eliminar palabras irrelevantes: Utiliza una lista de palabras vacías o "stopwords" (como preposiciones y artículos) para centrarse solo en palabras clave significativas.
+- [x] Eliminar signos de puntuación: Esto ayuda a evitar que frases similares se procesen de forma diferente debido a puntuación distinta.
+- Filtrar palabras específicas: Extrae solo los nombres propios (entidades específicas) y palabras clave que sean relevantes para la categorización.
+
+2. Extracción de Entidades
+Para extraer entidades como "Universidad", "docentes", "instituciones" o "grupos":
+
+- Uso de spaCy o NLTK: Estas bibliotecas pueden reconocer y etiquetar nombres propios o entidades relevantes automáticamente.
+- Filtrado por categorías: Define categorías como "propuesto por Universidad" y "propuesto por institución externa" basándote en palabras clave encontradas en cada antecedente. Por ejemplo, si encuentras "docentes" o "estudiantes", puedes asignarlo a una categoría universitaria; si encuentras "gobierno" o "organización", puede ser externo.
+
+3. Categorización y Análisis de Pertinencia
+- Definir un Indicador de Pertinencia: Puedes establecer una etiqueta de pertinencia cuando una entidad externa aparece en los antecedentes.
+- Clasificación por primera fase: Si tienes un campo que indica el estado del proyecto, puedes aplicar estos análisis solo a los proyectos vigentes.
+
+4. Etiquetado Automático y Almacenamiento
+Una vez extraídas las palabras clave, puedes:
+
+- Agrupar por categorías: Almacena las etiquetas generadas en una nueva columna o base de datos, asociando cada etiqueta con el proyecto.
+- Cuantificar: Cuantifica la aparición de ciertas etiquetas para facilitar el análisis estadístico de las tendencias en los proyectos.

@@ -113,7 +113,7 @@
      <string>Buscador de proyectos</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_2">
+   <widget class="QPushButton" name="addAndAnalyzeButton">
     <property name="geometry">
      <rect>
       <x>650</x>
@@ -175,7 +175,6 @@ font-size: 30px;</string>
  </widget>
  <resources>
   <include location="../../assets/Qt/qtSources.qrc"/>
-  <include location="../../../../assets/Qt/qtSources.qrc"/>
  </resources>
  <connections/>
 </ui>

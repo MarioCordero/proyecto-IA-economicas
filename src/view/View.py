@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QMainWindow, QApplication, QTableWidgetItem
+from PyQt5.QtWidgets import QMainWindow, QApplication, QFileDialog, QPushButton, QFileDialog, QTableWidgetItem
 from PyQt5.uic import loadUi
 from PyQt5 import uic
 
@@ -39,6 +39,40 @@ class View(QMainWindow):
         window_geometry = self.frameGeometry()
         window_geometry.moveCenter(screen.center())
         self.move(window_geometry.topLeft())
+
+    def selectFile(self):
+        """
+        Abre un diálogo para seleccionar un archivo y pasa la ruta al controlador.
+        """
+        filePath, _ = QFileDialog.getOpenFileName(None, "Seleccionar archivo", "", "Archivos de Excel (*.xlsx)")
+        if filePath:
+            return filePath
+        
+        return -1
+
+
+    def updateTable(self, projects):
+        """
+        Limpia y llena el `tableWidget` con los datos del proyecto.
+        """
+        table = self.databaseExplorer.tableWidget
+        table.clear()
+
+        # Define headers
+        headers = ["Codigo Inscripcion", "Nombre", "Analisis de Proyecto"]
+        table.setRowCount(len(projects))
+        table.setColumnCount(len(headers))
+        table.setHorizontalHeaderLabels(headers)
+
+        for row, project in enumerate(projects):
+            # Llena las columnas de datos
+            table.setItem(row, 0, QTableWidgetItem(str(project.get("codigo_inscripcion", ""))))
+            table.setItem(row, 1, QTableWidgetItem(str(project.get("nombre", ""))))
+            
+            # Crea y agrega el botón "Ver Análisis"
+            analysisButton = QPushButton("Ver Análisis")
+            analysisButton.clicked.connect(lambda _, proj=project: self.controller.showProjectDetails(proj))
+            table.setCellWidget(row, 2, analysisButton)
 
     def run(self):
         self.show()
