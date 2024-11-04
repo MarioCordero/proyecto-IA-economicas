@@ -9,15 +9,18 @@ from sklearn.model_selection import train_test_split
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.pipeline import make_pipeline
+from tensorflow.keras.layers import Embedding, LSTM, Dense, Bidirectional
+from tensorflow.keras.preprocessing.text import Tokenizer
+from tensorflow.keras.preprocessing.sequence import pad_sequences
 
 
 class Model:
     """
-    Esta clase es el modelo de la app responsable de la lógica de negocio y de interactuar con la base de datos.
+    # Esta clase es el modelo de la app responsable de la lógica de negocio y de interactuar con la base de datos.
     """
     def __init__(self, controller):
         """
-        Este módulo es la constructora del modelo.
+        # Este módulo es la constructora del modelo.
         """
         self.controller = controller
         self.client = MongoClient('mongodb://localhost:27017/') # Conexión a la base de datos en el modelo apenas se ejecute el codigo, conectese a la base de datos existente
@@ -25,23 +28,16 @@ class Model:
         self.collection = self.db['proyectos_vigentes'] # Crea o se conecta a la colección
         print("Conexión a la base de datos exitosa!")
         self.nlp = spacy.load("es_core_news_sm")  # Carga el modelo de spaCy para español
+        self.tokenizer = Tokenizer(num_words=10000)  # Puedes ajustar el número de palabras
+        self.max_length = 100  # Longitud máxima para el padding
 
 
     def analyzeData(self):
         """
-        Analiza los antecedentes de los proyectos y categoriza la información relevante.
+        # Analiza los antecedentes de los proyectos y categoriza la información relevante.
         """
         projects = self.fetchProjects() # Recuperar todos los proyectos vigentes
         antecedentesList = [project.get("antecedentes", "") for project in projects if project.get("antecedentes")]
-
-        # training_data = self.db['datos_entrenamiento']  # Colección que contiene datos para el entrenamiento
-        # training_records = training_data.find({}, {"antecedentes": 1, "categoria": 1})  # Extrae antecedentes y categorías
-        # training_antecedentes = []
-        # training_categories = []
-
-        # for record in training_records:
-        #     training_antecedentes.append(record.get("antecedentes", ""))
-        #     training_categories.append(record.get("categoria", ""))
 
         # Normalizar el texto
         combinedAntecedentes = " ".join(antecedentesList)
@@ -49,43 +45,10 @@ class Model:
         self.savetoFile(normalizedText, "normalizedText.txt") # Archivo con texto normalizado
         print(f"Nombres propios extraídos {self.extractNames(normalizedText)}")
 
-        # # Fase 1: Entrenamiento del modelo de clasificación
-        # X = training_antecedentes  # Textos
-        # y = training_categories  # Etiquetas
-
-        # # Dividir los datos
-        # X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-
-        # # Crear y entrenar el modelo
-        # self.model = make_pipeline(CountVectorizer(), MultinomialNB())
-        # self.model.fit(X_train, y_train)
-
-        # # Evaluar el modelo
-        # print("Precisión del modelo:", self.model.score(X_test, y_test))
-
-        # # Fase 2: Análisis detallado por proyecto
-        # for project in projects:
-        #     projectAntecedents = project.get("antecedentes", "")
-        #     normalizedProjectText = self.normalizeText(projectAntecedents)
-
-        #     # Predecir categorías utilizando el modelo entrenado
-        #     category_pred = self.model.predict([normalizedProjectText])[0]
-
-        #     # Actualizar cada proyecto en la base de datos con la nueva categoría
-        #     self.collection.update_one(
-        #         {"_id": project["_id"]},
-        #         {
-        #             "$set": {
-        #                 "categoria_predicha": category_pred
-        #             }
-        #         }
-        #     )
-        #     print(f"\nProyecto actualizado: ID {project['_id']}, Categoría predicha: {category_pred}")
-
 
     def normalizeText(self, text):
         """
-        Normaliza el texto: convierte a minúsculas, elimina puntuación y stopwords.
+        # Normaliza el texto: convierte a minúsculas, elimina puntuación y stopwords.
         """
         # Convertir a minúsculas
         text = text.lower()
@@ -98,6 +61,9 @@ class Model:
     
 
     def savetoFile(self, normalizedText, fileName):        
+        """
+        # Func
+        """
         # Abre el archivo en modo escritura
         with open(fileName, 'w', encoding='utf-8') as file:
             # Escribe el texto normalizado en el archivo
@@ -105,61 +71,74 @@ class Model:
 
     
     def extractNames(self, text):
-
+        """
+        # Func
+        """
         capitalizedText = " ".join([word.capitalize() for word in text.split()])
         nlp = spacy.load("es_core_news_sm")  # Asegúrate de tener el modelo en español
         doc = nlp(capitalizedText)
         self.savetoFile(capitalizedText, "capitalizedText.txt") # Archivo con texto normalizado
         properNouns = [ent.text for ent in doc.ents if ent.label_ == "PERSON"] # Extraer nombres propios
         return properNouns
+    
+    def prepareData(self, antecedentes_list):
+        """
+        # Tokeniza y prepara los datos de texto para el análisis.
+        """
+        # Tokenizar el texto
+        self.tokenizer.fit_on_texts(antecedentes_list)
+        sequences = self.tokenizer.texts_to_sequences(antecedentes_list)
+        padded_sequences = pad_sequences(sequences, maxlen=self.max_length, padding='post')
+        
+        return padded_sequences
+    
+    def buildModel(self):
+        """
+        # Crea un modelo secuencial de Keras con una capa LSTM para analizar texto.
+        """
+        model = Sequential([
+            Embedding(input_dim=10000, output_dim=64, input_length=self.max_length),
+            Bidirectional(LSTM(64, return_sequences=True)),
+            Bidirectional(LSTM(32)),
+            Dense(32, activation='relu'),
+            Dense(1, activation='sigmoid')  # Cambiar a 'softmax' si tienes múltiples categorías
+        ])
+        
+        model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
+        return model
+    
+    def analyzeAllAntecedentes(self, antecedentes_list):
+        """
+        # Analiza todo el texto combinado de la columna "antecedentes".
+        """
+        combined_text = " ".join(antecedentes_list)
+        padded_data = self.prepareData([combined_text])
+
+        # Crear el modelo y entrenar en el texto combinado (si tienes etiquetas para entrenamiento)
+        model = self.buildModel()
+        # model.fit(padded_data, labels)  # Necesitas etiquetas si estás entrenando supervisadamente
+
+        # Para predicción o embeddings:
+        embedding_output = model.predict(padded_data)
+        print(f"Embedding de todo el texto combinado: {embedding_output}")
 
 
-    def extractCategories(self, text):
+    def analyzeEachAntecedente(self, antecedentes_list):
         """
-        Extrae las categorías relevantes de los antecedentes procesados.
+        # Analiza cada texto individual en la columna "antecedentes".
         """
-        doc = self.nlp(text)
-        proposal_type = None
-        proposer = None
+        padded_data = self.prepareData(antecedentes_list)
+        model = self.buildModel()
         
-        for ent in doc.ents:
-            if ent.label_ == "ORG":  # Si es una organización
-                if "universidad" in ent.text or "docente" in ent.text or "estudiante" in ent.text:
-                    proposal_type = "Propuesto por Universidad"
-                    proposer = ent.text
-                    break  # Salir si se encuentra una universidad
-                else:
-                    proposal_type = "Propuesto por Institución Externa"
-                    proposer = ent.text
-                    break  # Salir si se encuentra una organización externa
-        
-        return proposal_type, proposer
-
-    def extractCategoriesGeneral(self, text):
-        """
-        Extrae las categorías relevantes de los antecedentes procesados.
-        """
-        doc = self.nlp(text)
-        proposal_type = None
-        proposer = None
-        
-        for ent in doc.ents:
-            if ent.label_ == "ORG":  # Si es una organización
-                if "universidad" in ent.text or "docente" in ent.text or "estudiante" in ent.text:
-                    proposal_type = "Propuesto por Universidad"
-                    proposer = ent.text
-                    break  # Salir si se encuentra una universidad
-                else:
-                    proposal_type = "Propuesto por Institución Externa"
-                    proposer = ent.text
-                    break  # Salir si se encuentra una organización externa
-        
-        return proposal_type, proposer
+        # Para cada texto individual
+        for idx, sequence in enumerate(padded_data):
+            prediction = model.predict(sequence.reshape(1, -1))
+            print(f"Predicción para el proyecto {idx + 1}: {prediction}")
 
 
     def addXLSX(self, filePath):
         """
-        Procesa y analiza el archivo seleccionado.
+        # Procesa y analiza el archivo seleccionado.
         """
 
         workbook = openpyxl.load_workbook(filePath) # Abrir el archivo XLSX
@@ -199,28 +178,19 @@ class Model:
             print(f"ID insertado en MongoDB: {inserted_id}")
             print("-" * 40)
 
-        # Actualizar tabla
+            projects = self.model.fetchData() # Get the data
+            self.view.updateTable(projects)
 
-        
-    
     def insertProject(self, project_data):
         """
-        Inserta un proyecto en la colección 'proyectos_vigentes'.
+        # Inserta un proyecto en la colección 'proyectos_vigentes'.
         """
         return self.collection.insert_one(project_data).inserted_id
 
 
     def fetchData(self):
         """
-        Obtiene los datos de la base de datos y los devuelve.
+        # Obtiene los datos de la base de datos y los devuelve.
         """
         data = list(self.collection.find())
         return data
-    
-
-    def fetchProjects(self):
-        """
-        Retrieve projects from the database.
-        """
-        projects = self.collection.find({})
-        return [project for project in projects]  # List of dictionaries
