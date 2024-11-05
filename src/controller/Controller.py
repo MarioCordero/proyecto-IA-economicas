@@ -14,6 +14,13 @@ class Controller:
         self.model = Model(self)  # Construye el modelo y pasa la controladora por parámetro
         print("Controladora construida!")
 
+    def updateTable(self):
+        """
+        Actualiza la tabla en la vista con los datos obtenidos del modelo.
+        """
+        projects = self.model.fetchData()  # Obtiene los datos de la base de datos
+        self.view.updateTable(projects)  # Actualiza la tabla en la vista
+
 
     def analyzeFile(self):
         """
@@ -32,12 +39,11 @@ class Controller:
     #
     def run(self):
         """
-        Inicia la vista.
+        # Inicia la vista.
         """
         self.view.run()
-        projects = self.model.fetchData() # Get the data
-        self.view.updateTable(projects)
-        self.view.landingPage.pushButton.clicked.connect(lambda: self.view.stackedWidget.setCurrentWidget(self.view.databaseExplorer)) # Connect "Empezar" button to show the databaseExplorer page
-        # projects = self.model.fetchData() # Get the data
-        # self.view.updateTable(projects)
+        self.updateTable()  # Actualiza la tabla al iniciar
+        self.view.landingPage.pushButton.clicked.connect(
+            lambda: self.view.stackedWidget.setCurrentWidget(self.view.databaseExplorer) # Connect "Empezar" button to show the databaseExplorer page
+        )
         self.view.databaseExplorer.addAndAnalyzeButton.clicked.connect(self.analyzeFile) # The analize button

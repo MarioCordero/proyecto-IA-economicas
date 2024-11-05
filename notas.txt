@@ -24,6 +24,8 @@ pip install beautifulsoup4
 
 pip install scikit-learn
 
+pip install tensorflow
+
 python3 src/main.py
 
 WINDOWS------------------------------------

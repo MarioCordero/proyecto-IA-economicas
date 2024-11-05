@@ -27,23 +27,24 @@ class Model:
         self.db = self.client['DB_EEc'] # Crea o se conecta a la base de datos
         self.collection = self.db['proyectos_vigentes'] # Crea o se conecta a la colección
         print("Conexión a la base de datos exitosa!")
-        self.nlp = spacy.load("es_core_news_sm")  # Carga el modelo de spaCy para español
+        self.nlp = spacy.load("es_core_news_md")  # Carga el modelo de spaCy para español
         self.tokenizer = Tokenizer(num_words=10000)  # Puedes ajustar el número de palabras
         self.max_length = 100  # Longitud máxima para el padding
 
 
-    def analyzeData(self):
+    def analyzeData(self): # Analyuze antecedentes
         """
-        # Analiza los antecedentes de los proyectos y categoriza la información relevante.
+        # Analiza los antecedentes de los proyectos y categoriza la información relevante, la función principal de la clase
         """
         projects = self.fetchProjects() # Recuperar todos los proyectos vigentes
         antecedentesList = [project.get("antecedentes", "") for project in projects if project.get("antecedentes")]
 
-        # Normalizar el texto
+        # Combinar y normalizar el texto
         combinedAntecedentes = " ".join(antecedentesList)
         normalizedText = self.normalizeText(combinedAntecedentes)
+
+        # Guardar el texto normalizado
         self.savetoFile(normalizedText, "normalizedText.txt") # Archivo con texto normalizado
-        print(f"Nombres propios extraídos {self.extractNames(normalizedText)}")
 
 
     def normalizeText(self, text):
@@ -55,14 +56,14 @@ class Model:
         # Eliminar puntuación
         text = re.sub(r'[^\w\s]', '', text)
         # Eliminar palabras irrelevantes
-        stopwords = set(spacy.lang.es.stop_words.STOP_WORDS)  # Obtener stopwords de spaCy
+        stopwords = self.nlp.Defaults.stop_words
         tokens = [word for word in text.split() if word not in stopwords]
         return " ".join(tokens)
     
 
     def savetoFile(self, normalizedText, fileName):        
         """
-        # Func
+        # Guardar algun archivo (Variable, Nombre archivo)
         """
         # Abre el archivo en modo escritura
         with open(fileName, 'w', encoding='utf-8') as file:
@@ -70,14 +71,13 @@ class Model:
             file.write(normalizedText)
 
     
-    def extractNames(self, text):
+    def extractNames(self, text): # UNUSED
         """
         # Func
         """
         capitalizedText = " ".join([word.capitalize() for word in text.split()])
-        nlp = spacy.load("es_core_news_sm")  # Asegúrate de tener el modelo en español
-        doc = nlp(capitalizedText)
-        self.savetoFile(capitalizedText, "capitalizedText.txt") # Archivo con texto normalizado
+        doc = self.nlp(capitalizedText)
+        # self.savetoFile(capitalizedText, "capitalizedText.txt") # Archivo con texto normalizado
         properNouns = [ent.text for ent in doc.ents if ent.label_ == "PERSON"] # Extraer nombres propios
         return properNouns
     
@@ -160,7 +160,8 @@ class Model:
                 "fecha_fin": fecha_fin,
                 "area_academica": area_academica,
                 "comunidades_indigenas": comunidades_indigenas,
-                "antecedentes": BeautifulSoup(str(antecedentes).lower(), "html.parser").get_text(separator=" "), #(lowercase insert)
+                "antecedentes": BeautifulSoup(str(antecedentes), "html.parser").get_text(separator=" "),
+                #"antecedentes": BeautifulSoup(str(antecedentes).lower(), "html.parser").get_text(separator=" "), #(lowercase insert)
                 #"antecedentes": antecedentes, # (normal insert)
                 "poblacion": poblacion,
                 "beneficios_ucr": beneficios_ucr,
@@ -177,9 +178,8 @@ class Model:
             print(f"Código de inscripción: {codigo_inscripcion}")
             print(f"ID insertado en MongoDB: {inserted_id}")
             print("-" * 40)
+            self.controller.updateTable()  # Llama a updateTable desde el controlador
 
-            projects = self.model.fetchData() # Get the data
-            self.view.updateTable(projects)
 
     def insertProject(self, project_data):
         """
@@ -193,4 +193,12 @@ class Model:
         # Obtiene los datos de la base de datos y los devuelve.
         """
         data = list(self.collection.find())
+        return data
+    
+    def fetchProjects(self):
+        """
+        # Retrieve projects from the database.
+        """
+        projects = self.collection.find({})
+        return [project for project in projects]  # List of dictionaries
         return data
