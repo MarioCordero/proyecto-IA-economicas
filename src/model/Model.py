@@ -9,9 +9,11 @@ from sklearn.model_selection import train_test_split
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.pipeline import make_pipeline
+import tensorflow as tf
 from tensorflow.keras.layers import Embedding, LSTM, Dense, Bidirectional
 from tensorflow.keras.preprocessing.text import Tokenizer
 from tensorflow.keras.preprocessing.sequence import pad_sequences
+from tensorflow.keras.models import Sequential
 
 
 class Model:
@@ -32,19 +34,47 @@ class Model:
         self.max_length = 100  # Longitud máxima para el padding
 
 
-    def analyzeData(self): # Analyuze antecedentes
+    def analyzeData(self): # Analyze antecedentes
         """
-        # Analiza los antecedentes de los proyectos y categoriza la información relevante, la función principal de la clase
+        # Analiza los antecedentes de los proyectos y entrena la red neuronal.
         """
-        projects = self.fetchProjects() # Recuperar todos los proyectos vigentes
-        antecedentesList = [project.get("antecedentes", "") for project in projects if project.get("antecedentes")]
+        # ----------------------------------ENTRENAMIENTO DEL MODELO----------------------------------#
+        # Necesitamos entradas (each antcedente), en este caso antecedentesList, que es un 
+        # arreglo en el que cada posición del arreglo es un antecedente a un proyecto  
+        projects = self.fetchProjects() # Obtener todos los proyectos de la base de datos
+        antecedentesList = [project.get("antecedentes", "") for project in projects if project.get("antecedentes")] # Obtener solo los antecedentes de los proyectos mostrados
 
-        # Combinar y normalizar el texto
-        combinedAntecedentes = " ".join(antecedentesList)
-        normalizedText = self.normalizeText(combinedAntecedentes)
 
-        # Guardar el texto normalizado
-        self.savetoFile(normalizedText, "normalizedText.txt") # Archivo con texto normalizado
+        # Necesitamos salidas esperadas (each antecedente), en este caso vamos a tener 
+        # que usar alguna lista perviamente analizada por nosotros de respuestas a cada
+        # antecedente o posición de arreglo
+
+        etiquetas = [
+            "Propuesto por institución",
+            "Propuesto por profesor",
+            "Proyección cultural o artística",
+            "Actividades interdisciplinarias",
+            "Cambio de enfoque o dirección",
+            "Apertura a la comunidad",
+            "Vinculación con la historia del arte"
+        ]
+
+        # Etiquetas ficticias (0 o 1) para entrenamiento de ejemplo; en un caso real, deberías tener etiquetas reales.
+        labels = [0 if i % 2 == 0 else 1 for i in range(len(antecedentesList))]
+        
+        # Preparar datos y etiquetas
+        padded_sequences = self.prepareData(antecedentesList)
+        X_train, X_test, y_train, y_test = train_test_split(padded_sequences, labels, test_size=0.2, random_state=42)
+        
+        # Llamada a buildModel para crear la arquitectura de la red
+        model = self.buildModel()
+        
+        # Entrenamiento del modelo
+        model.fit(X_train, y_train, epochs=5, batch_size=32, validation_data=(X_test, y_test))
+        
+        # Guardar el modelo entrenado
+        model.save("trained_model.h5")
+        print("Entrenamiento completado y modelo guardado en 'trained_model.h5'")
 
 
     def normalizeText(self, text):
@@ -69,25 +99,15 @@ class Model:
         with open(fileName, 'w', encoding='utf-8') as file:
             # Escribe el texto normalizado en el archivo
             file.write(normalizedText)
-
-    
-    def extractNames(self, text): # UNUSED
-        """
-        # Func
-        """
-        capitalizedText = " ".join([word.capitalize() for word in text.split()])
-        doc = self.nlp(capitalizedText)
-        # self.savetoFile(capitalizedText, "capitalizedText.txt") # Archivo con texto normalizado
-        properNouns = [ent.text for ent in doc.ents if ent.label_ == "PERSON"] # Extraer nombres propios
-        return properNouns
     
     def prepareData(self, antecedentes_list):
         """
         # Tokeniza y prepara los datos de texto para el análisis.
         """
-        # Tokenizar el texto
-        self.tokenizer.fit_on_texts(antecedentes_list)
-        sequences = self.tokenizer.texts_to_sequences(antecedentes_list)
+        self.tokenizer.fit_on_texts(antecedentes_list) # Tokenizar el texto
+
+        sequences = self.tokenizer.texts_to_sequences(antecedentes_list) 
+
         padded_sequences = pad_sequences(sequences, maxlen=self.max_length, padding='post')
         
         return padded_sequences
@@ -138,7 +158,7 @@ class Model:
 
     def addXLSX(self, filePath):
         """
-        # Procesa y analiza el archivo seleccionado.
+        # Añade archivos del documento seleccionado.
         """
 
         workbook = openpyxl.load_workbook(filePath) # Abrir el archivo XLSX
@@ -201,4 +221,21 @@ class Model:
         """
         projects = self.collection.find({})
         return [project for project in projects]  # List of dictionaries
-        return data
+
+    def clearDatabase(self):
+        """
+        # Elimina todas las entradas de la colección 'proyectos_vigentes' en la base de datos.
+        """
+        self.db.proyectos_vigentes.drop()
+        print("Todas las entradas en 'proyectos_vigentes' han sido eliminadas.")
+        self.controller.updateTable()  # Llama a updateTable desde el controlador
+
+    def extractNames(self, text): # UNUSED
+        """
+        # Func
+        """
+        capitalizedText = " ".join([word.capitalize() for word in text.split()])
+        doc = self.nlp(capitalizedText)
+        # self.savetoFile(capitalizedText, "capitalizedText.txt") # Archivo con texto normalizado
+        properNouns = [ent.text for ent in doc.ents if ent.label_ == "PERSON"] # Extraer nombres propios
+        return properNouns

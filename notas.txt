@@ -120,3 +120,17 @@ Una vez extraídas las palabras clave, puedes:
 
 - Agrupar por categorías: Almacena las etiquetas generadas en una nueva columna o base de datos, asociando cada etiqueta con el proyecto.
 - Cuantificar: Cuantifica la aparición de ciertas etiquetas para facilitar el análisis estadístico de las tendencias en los proyectos.
+
+--------------------------Nuevo enfoque-----------------------
+Programación regular
+Entradas -> resultados
+
+Aprendizaje automático
+Entradas -> No sabemos que -> resultados
+
+Chat GPT:
+    En el entrenamiento de una red neuronal, no defines patrones ni reglas manualmente; en cambio, la red aprende a reconocer patrones 
+    de los datos de entrada y sus etiquetas correspondientes. Comienza con pesos aleatorios, y a través de cálculos y ajustes continuos 
+    (propagación hacia adelante y retropropagación), optimiza sus pesos para minimizar el error. Tras muchas repeticiones (epochs), la 
+    red ajusta sus conexiones para reconocer patrones de los datos, permitiéndole hacer predicciones en datos nuevos.
+

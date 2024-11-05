@@ -22,7 +22,7 @@ class Controller:
         self.view.updateTable(projects)  # Actualiza la tabla en la vista
 
 
-    def analyzeFile(self):
+    def addData(self):
         """
         Analiza el archivo seleccionado.
         """
@@ -32,7 +32,12 @@ class Controller:
         else:
             print(f"Analizando y añadiendo proyectos del archivo: {filePath}")
             self.model.addXLSX(filePath)
-            self.model.analyzeData()
+
+    def analyzeProyects(self):
+        """
+        Analiza el archivo seleccionado.
+        """
+        self.model.analyzeData()
 
     #
     # Controller logic
@@ -46,4 +51,12 @@ class Controller:
         self.view.landingPage.pushButton.clicked.connect(
             lambda: self.view.stackedWidget.setCurrentWidget(self.view.databaseExplorer) # Connect "Empezar" button to show the databaseExplorer page
         )
-        self.view.databaseExplorer.addAndAnalyzeButton.clicked.connect(self.analyzeFile) # The analize button
+        self.view.databaseExplorer.addDataButton.clicked.connect(
+            self.addData # The add data button
+        )
+        self.view.databaseExplorer.analyzeProyectsButton.clicked.connect(
+            self.analyzeProyects # The analize button
+        )
+        self.view.databaseExplorer.clearDatabaseButton.clicked.connect(
+            self.model.clearDatabase  # Botón para borrar todas las entradas de la base de datos
+        )
