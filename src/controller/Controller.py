@@ -33,9 +33,15 @@ class Controller:
             print(f"Analizando y añadiendo proyectos del archivo: {filePath}")
             self.model.addXLSX(filePath)
 
-    def analyzeProyects(self):
+    def trainModel(self):
         """
-        Analiza el archivo seleccionado.
+        # Entrena el modelo
+        """
+        self.model.trainModel() # Primero entrenar el modelo
+
+    def analyzeDB(self):
+        """
+        # usa el modelo entrenado para predecir etiquetas
         """
         self.model.analyzeData()
 
@@ -55,7 +61,10 @@ class Controller:
             self.addData # The add data button
         )
         self.view.databaseExplorer.analyzeProyectsButton.clicked.connect(
-            self.analyzeProyects # The analize button
+            self.analyzeDB # The analize button
+        )
+        self.view.databaseExplorer.trainModelButton.clicked.connect(
+            self.trainModel # The analize button
         )
         self.view.databaseExplorer.clearDatabaseButton.clicked.connect(
             self.model.clearDatabase  # Botón para borrar todas las entradas de la base de datos

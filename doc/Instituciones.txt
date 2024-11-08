@@ -1,0 +1,375 @@
+Academia Nacional de Ciencias
+Agencia de Protección de Datos de los Habitantes (PRODHAB)
+Agencia Espacial Costarricense (AEC)
+Agencia Nacional de Gobierno Digital
+Auditoría General de Servicios de Salud
+Autoridad Reguladora de los Servicios Públicos (ARESEP)
+Banco BN Centro de Procesos S.A
+Banco Central de Costa Rica (BCCR)
+Banco de Costa Rica (BCR)
+Banco Hipotecario de la Vivienda (BANHVI)
+Banco Nacional de Costa Rica (BNCR)
+Banco Popular y de Desarrollo Comunal (BPDC)
+Banprocesa S.R.L
+BCR. Corredora de Seguros S.A
+BCR Leasing Premium Plus S.A
+BCR. Pensión Operadora de Planes de Pensiones Complementarias S.A.
+BCR. Sociedad Administradora de Fondos de Inversión S.A.(SAFI)
+BCR. Valores Puesto de Bolsa S.A.
+Benemérito Cuerpo de Bomberos de C.R
+BN Sociedad Administradora de Fondos de Inversión S.A.
+BN Sociedad Corredora de Seguros S.A
+BN Valores, Puesto de Bolsa S.A
+BN Vital Operadora de Planes de Pensiones Complementarias S.A.
+Caja Costarricense de Seguro Social (CCSS)
+Casa de la Cultura de Puntarenas
+Centro Costarricense de Producción Cinematográfica
+Centro Cultural e Histórico José Figueres Ferrer
+Centro Histórico de la Reforma Agraria de Costa Rica y el Parque Temático
+Centro Nacional de la Música
+Centro Nacional de Recursos para la Educación Inclusiva (CENAREC)
+Colegio de Abogados
+Colegio de Biólogos
+Colegio de Ciencias Económicas de Costa Rica
+Colegio de Cirujanos Dentistas de Costa Rica
+Colegio de Contadores Privados de Costa Rica
+Colegio de Contadores Públicos de Costa Rica
+Colegio de Enfermeras de Costa Rica
+Colegio de Farmacéuticos
+Colegio de Físicos
+Colegio de Geólogos
+Colegio de Ingenieros Agrónomos de Costa Rica
+Colegio de Ingenieros Químicos y Profesionales Afines
+Colegio de Licenciados y Profesores en Letras, Filosofía, Ciencias y Artes (COLYPRO)
+Colegio de Médicos Veterinarios
+Colegio de Médicos y Cirujanos
+Colegio de Microbiólogos y Químicos Clínicos de Costa Rica
+Colegio de Optometristas de Costa Rica
+Colegio de Periodistas de Costa Rica
+Colegio de Profesionales en Bibliotecología de Costa Rica
+Colegio de Profesionales en Ciencias del Movimiento Humano de Costa Rica
+Colegio de Profesionales en Ciencias Políticas y Relaciones Internacionales
+Colegio de Profesionales en Criminología de Costa Rica
+Colegio de Profesionales en Geografía
+Colegio de Profesionales en Informática y Computación
+Colegio de Profesionales en Nutrición
+Colegio de Profesionales en Orientación
+Colegio de Profesionales en Quiropráctica
+Colegio de Profesionales en Secretariado de Costa Rica
+Colegio de Profesionales en Sociología de Costa Rica
+Colegio de Químicos de Costa Rica
+Colegio de Terapeutas
+Colegio de Trabajadores Sociales
+Colegio Federado de Ingenieros y Arquitectos (CFIA)
+Colegio Profesional de Psicólogos de Costa Rica
+Colegio San Luis Gonzaga de Cartago
+Colegio Universitario de Cartago (CUC)
+Colegio Universitario de Limón (CUNLIMON)
+Comisión Costarricense de Cooperación con UNESCO
+Comisión de Energía Atómica (CEA)
+Comisión de Ordenamiento y Manejo de la Cuenca Alta del Río Reventazón (COMCURE)
+Comisión Interinstitucional de Marinas y Atracaderos turísticos (CIMAT)
+Comisión Nacional de Asuntos Indígenas (CONAI)
+Comisión Nacional de Préstamos para la Educación (CONAPE)
+Comisión Nacional de Prevención de Riesgos y Atención de Emergencias (CNE)
+Comisión Nacional de Vacunación y Epidemiología
+Comisión Nacional del Consumidor (CNC)
+Comisión Nacional Interinstitucional para atender a las mujeres en condiciones de pobreza
+Comisión Nacional para la Gestión de la Biodiversidad (CONAGEBIO)
+Comisión para Promover la Competencia (COPROCOM)
+Comisión Reguladora de Turismo
+Compañía Nacional de Fuerza y Luz S.A. (CNFL)
+Concejo Municipal de Distrito de Cervantes
+Concejo Municipal de Distrito de Cóbano
+Concejo Municipal de Distrito de Colorado
+Concejo Municipal de Distrito de Lepanto
+Concejo Municipal de Distrito de Paquera
+Concejo Municipal de Distrito de Peñas blancas
+Concejo Municipal de Distrito de Tucurrique
+Consejo de Seguridad Vial (COSEVI)
+Consejo de Transporte Público (CTP)
+Consejo del Distrito Cívico del Bicentenario de la República de Costa Rica
+Consejo Interinstitucional de Atención a la Madre Adolescente
+Consejo Nacional de Clubes 4-S (CONAC)
+Consejo Nacional de Concesiones (CNC)
+Consejo Nacional de Cooperativas (CONACOOP)
+Consejo Nacional de Enseñanza Superior Universitaria Privada (CONESUP)
+Consejo Nacional de Investigación en Salud (CONIS)
+Consejo Nacional de la Persona Adulta Mayor (CONAPAM)
+Consejo Nacional de Personas con Discapacidad (CONAPDIS)
+Consejo Nacional de Política Pública de la Persona Joven
+Consejo Nacional de Producción (CNP)
+Consejo Nacional de Salarios
+Consejo Nacional de Supervisión del Sistema Financiero (CONASSIF)
+Consejo Nacional de Vialidad (CONAVI)
+Consejo Superior de Educación Pública
+Consejo Técnico de Asistencia Médico Social (CTAMS)
+Consejo Técnico de Aviación Civil (CETAC)
+Contraloría General de la República (CGR)
+Corporación Arrocera Nacional (CONARROZ)
+Corporación Bananera Nacional S.A. (CORBANA)
+Corporación Ganadera Nacional (CORFOGA)
+Corporación Hortícola Nacional
+Correos de Costa Rica S.A.
+Defensoría de los Habitantes de la República (DHR)
+Dirección General de Migración y Extranjería (DGME)
+Dirección General de Servicio Civil (DGSC)
+Dirección General del Archivo Nacional
+Dirección Nacional de Centros de Educación y Nutrición y de Centros Infantiles de Atención
+Integral (CEN-CINAÍ)
+Dirección Nacional de Desarrollo de la Comunidad (DINADECO)
+Dirección Nacional de Notariado (DNN)
+Editorial Costa Rica (ECR)
+Empresa de Servicios Públicos de Heredia S.A. (ESPH)
+Ente Costarricense de Acreditación (ECA)
+Fondo de Apoyo para la Educación Superior y Técnica del Puntarenense
+Fondo de Desarrollo de la Provincia de Limón (FODELI)
+Fondo Nacional de Becas de Solidaridad Social
+Fondo Nacional de Estabilización Cafetalera (FONECAFE)
+Fondo Nacional de Financiamiento Forestal (FONAFIFO)
+Fondo Nacional de Sostenibilidad Cafetalera (FONASCAFE)
+Gestión de Cobro ICE.S.A
+INS Servicios S.A
+INS Sociedad Administradora de Fondos de Inversión S.A.(INS-SAFI)
+INS Valores. Puesto de Bolsa S.A
+INS-Red de Servicios de Salud
+Instituto Centroamericano de Extensión de la Cultura (ICECU)
+Instituto Costarricense de Acueductos y Alcantarillados (AyA)
+Instituto Costarricense de Deporte y la Recreación (ICODER)
+Instituto Costarricense de Electricidad (ICE)
+Instituto Costarricense de Ferrocarril (INCOFER)
+Instituto Costarricense de Investigación y Enseñanza en Nutrición y Salud (INCIENSA)
+Instituto Costarricense de Pesca y Acuicultura (INCOPESCA)
+Instituto Costarricense de Puertos del Pacífico (INCOP)
+Instituto Costarricense de Turismo (ICT)
+Instituto Costarricense sobre Drogas (ICD)
+Instituto de Desarrollo Profesional Uladislao Gámez Solano
+Instituto de Desarrollo Rural (INDER)
+Instituto de Fomento y Asesoría Municipal (IFAM)
+Instituto del Café de Costa Rica (ICAFE)
+Instituto Mixto de Ayuda Social (IMAS)
+Instituto Nacional de Aprendizaje (INA)
+Instituto Nacional de Estadística y Censos (INEC)
+Instituto Nacional de Fomento Cooperativo (INFOCOOP)
+Instituto Nacional de Innovación y Transferencia en Tecnología Agropecuaria (INTA)
+Instituto Nacional de las Mujeres (INAMU)
+Instituto Nacional de Seguros (INS)
+Instituto Nacional de Vivienda y Urbanismo (INVU)
+Instituto sobre Alcoholismo y Farmacodependencia (IAFA)
+Instituto Tecnológico de Costa Rica (ITCR)
+Junta Administrativa de la Imprenta Nacional
+Junta Administrativa del Registro Nacional
+Junta Administrativa del Servicio Eléctrico Municipal de Cartago (JASEC)
+Junta de Administración Portuaria y de Desarrollo Económico de la Vertiente Atlántica
+(JAPDEVA)
+Junta de Desarrollo Regional de la Zona Sur (JUDESUR)
+Junta de Pensiones y Jubilaciones del Magisterio Nacional (JUPEMA)
+Junta de Protección Social (JPS)
+Junta Directiva del Parque Nacional Isla San Lucas
+Junta Directiva para el fideicomiso del Parque Nacional Manuel Antonio
+Junta Directiva para el fideicomiso del Parque Nacional Marino Ballena
+Junta Promotora de Turismo de la Ciudad de Puntarenas
+Laboratorio Costarricense de Metrología (LACOMET)
+Liga Agrícola Industrial de la Caña de Azúcar (LAICA)
+Mecanismo Nacional de Prevención contra la Tortura y otros tratos o penas crueles,
+inhumanos o degradantes
+Ministerio de Agricultura y Ganadería (MAG)
+Ministerio de Ambiente y Energía (MINAE)
+Ministerio de Ciencia, Innovación, Tecnología y Telecomunicaciones (MICITT)
+Ministerio de Comercio Exterior (COMEX)
+Ministerio de Cultura y Juventud (MCJ)
+Ministerio de Economía Industria y Comercio (MEIC)
+Ministerio de Educación Pública (MEP)
+Ministerio de Gobernación y Policía
+Ministerio de Hacienda (MH)
+Ministerio de Justicia y Paz (MJ)
+Ministerio de la Presidencia
+Ministerio de Obras Públicas y Transportes (MOPT)
+Ministerio de Planificación Nacional y Política Económica (MIDEPLAN)
+Ministerio de Relaciones Exteriores y Culto (MREC)
+Ministerio de Salud (MS)
+Ministerio de Seguridad Pública (MSP)
+Ministerio de Trabajo y Seguridad Social (MTSS)
+Ministerio de Vivienda y Asentamientos Humanos (MIVAH)
+Municipalidad de Abangares
+Municipalidad de Acosta
+Municipalidad de Alajuela
+Municipalidad de Alajuelita
+Municipalidad de Alvarado
+Municipalidad de Aserrí
+Municipalidad de Atenas
+Municipalidad de Bagaces
+Municipalidad de Barva
+Municipalidad de Belén
+Municipalidad de Buenos Aires
+Municipalidad de Cañas
+Municipalidad de Carrillo
+Municipalidad de Cartago
+Municipalidad de Corredores
+Municipalidad de Coto Brus
+Municipalidad de Curridabat
+Municipalidad de Desamparados
+Municipalidad de Dota
+Municipalidad de El Guarco
+Municipalidad de Escazú
+Municipalidad de Esparza
+Municipalidad de Flores
+Municipalidad de Garabito
+Municipalidad de Goicoechea
+Municipalidad de Golfito
+Municipalidad de Grecia
+Municipalidad de Guácimo
+Municipalidad de Guatuso
+Municipalidad de Heredia
+Municipalidad de Hojancha
+Municipalidad de Jiménez
+Municipalidad de La Cruz
+Municipalidad de La Unión
+Municipalidad de León Cortés
+Municipalidad de Liberia
+Municipalidad de Limón
+Municipalidad de Los Chiles
+Municipalidad de Matina
+Municipalidad de Montes de Oca
+Municipalidad de Montes de Oro
+Municipalidad de Monteverde
+Municipalidad de Mora
+Municipalidad de Moravia
+Municipalidad de Nandayure
+Municipalidad de Naranjo
+Municipalidad de Nicoya
+Municipalidad de Oreamuno
+Municipalidad de Orotina
+Municipalidad de Osa
+Municipalidad de Palmares
+Municipalidad de Paraíso
+Municipalidad de Parrita
+Municipalidad de Pérez Zeledón
+Municipalidad de Poás
+Municipalidad de Pococí
+Municipalidad de Puerto Jiménez
+Municipalidad de Puntarenas
+Municipalidad de Puriscal
+Municipalidad de Quepos
+Municipalidad de Río Cuarto
+Municipalidad de San Carlos
+Municipalidad de San Isidro
+Municipalidad de San José
+Municipalidad de San Mateo
+Municipalidad de San Pablo
+Municipalidad de San Rafael
+Municipalidad de San Ramón
+Municipalidad de Santa Ana
+Municipalidad de Santa Bárbara
+Municipalidad de Santa Cruz
+Municipalidad de Santo Domingo
+Municipalidad de Sarapiquí
+Municipalidad de Sarchí
+Municipalidad de Siquirres
+Municipalidad de Talamanca
+Municipalidad de Tarrazú
+Municipalidad de Tibás
+Municipalidad de Tilarán
+Municipalidad de Turrialba
+Municipalidad de Turrubares
+Municipalidad de Upala
+Municipalidad de Vázquez de Coronado
+Municipalidad de Zarcero
+Museo de Arte Costarricense
+Museo de Arte y Diseño Contemporáneos
+Museo Dr. Rafael Ángel Calderón Guardia
+Museo Histórico Cultural Juan Santamaría
+Museo Nacional de Costa Rica
+Oficina de Cooperación Internacional de la Salud (OCIS)
+Oficina Ejecutora del Proyecto Turístico Golfo de Papagayo
+Oficina Nacional de Semillas (ONS)
+Oficina Nacional Forestal
+Operadora de Pensiones Complementaria y de Capitalización Laboral de la Caja
+Costarricense de Seguro Social, S.A. (OPC-CCSS)
+Operadora de Planes de Pensiones Complementarias del Banco Popular y de Desarrollo Comunal S.A
+Órgano de Normalización Técnica
+287. Parque Marino del Pacífico
+288. Patronato Nacional de Ciegos (PANACI)
+289. Patronato Nacional de Infancia (PANI)
+290. Poder Judicial
+291. Poder Legislativo
+292. Popular Sociedad Agencia de Seguros S.A
+293. Popular Sociedad Fondos de Inversión S.A
+294. Popular Valores, Puesto de Bolsa S. A.
+295. Presidencia de la República
+296. Procuraduría General de la República (PGR)
+297. Programa Integral de Mercadeo Agropecuario (PIMA)
+298. Promotora Costarricense de Innovación e Investigación (PROMOTORA)
+299. Promotora del Comercio Exterior de Costa Rica (PROCOMER)
+300. Radiográfica de Costarricense S.A. (RACSA)
+301. Refinadora Costarricense de Petróleo S.A. (RECOPE)
+302. Secretaría Técnica de la Red Nacional de Cuido y Desarrollo Infantil (Redcudi)
+303. Secretaría Técnica Nacional Ambiental (SETENA)
+304. Servicio Fitosanitario del Estado
+305. Servicio Nacional de Aguas Subterráneas, Riego y Avenamiento (SENARA)
+306. Servicio Nacional de Salud Animal (SENASA)
+307. Sistema de Emergencias 9-1-1
+308. Sistema Nacional de Áreas de Conservación (SINAC)
+309. Sistema Nacional de Educación Musical (SINEM)
+310. Sistema Nacional de Información y Registro Único de Beneficiarios del Estado (SINIRUBE)
+311. Sistema Nacional de Radio y Televisión S.A. (SINART)
+312. Superintendencia de Pensiones (SUPEN)
+313. Superintendencia de Telecomunicaciones (SUTEL)
+314. Superintendencia General de Entidades Financieras (SUGEF)
+315. Superintendencia General de Seguros (SUGESE)
+316. Superintendencia General de Valores (SUGEVAL)
+317. Teatro Nacional
+318. Teatro Popular Mélico Salazar
+319. Tribunal Administrativo de Conflictos Deportivos (TRIACODE)
+320. Tribunal Administrativo de la Seguridad Social del Régimen de Pensiones y Jubilaciones del
+Magisterio NacionalÓrgano de Normalización Técnica
+Parque Marino del Pacífico
+Patronato Nacional de Ciegos (PANACI)
+Patronato Nacional de Infancia (PANI)
+Poder Judicial
+Poder Legislativo
+Popular Sociedad Agencia de Seguros S.A
+Popular Sociedad Fondos de Inversión S.A
+Popular Valores, Puesto de Bolsa S. A.
+Presidencia de la República
+Procuraduría General de la República (PGR)
+Programa Integral de Mercadeo Agropecuario (PIMA)
+Promotora Costarricense de Innovación e Investigación (PROMOTORA)
+Promotora del Comercio Exterior de Costa Rica (PROCOMER)
+Radiográfica de Costarricense S.A. (RACSA)
+Refinadora Costarricense de Petróleo S.A. (RECOPE)
+Secretaría Técnica de la Red Nacional de Cuido y Desarrollo Infantil (Redcudi)
+Secretaría Técnica Nacional Ambiental (SETENA)
+Servicio Fitosanitario del Estado
+Servicio Nacional de Aguas Subterráneas, Riego y Avenamiento (SENARA)
+Servicio Nacional de Salud Animal (SENASA)
+Sistema de Emergencias 9-1-1
+Sistema Nacional de Áreas de Conservación (SINAC)
+Sistema Nacional de Educación Musical (SINEM)
+Sistema Nacional de Información y Registro Único de Beneficiarios del Estado (SINIRUBE)
+Sistema Nacional de Radio y Televisión S.A. (SINART)
+Superintendencia de Pensiones (SUPEN)
+Superintendencia de Telecomunicaciones (SUTEL)
+Superintendencia General de Entidades Financieras (SUGEF)
+Superintendencia General de Seguros (SUGESE)
+Superintendencia General de Valores (SUGEVAL)
+Teatro Nacional
+Teatro Popular Mélico Salazar
+Tribunal Administrativo de Conflictos Deportivos (TRIACODE)
+Tribunal Administrativo de la Seguridad Social del Régimen de Pensiones y Jubilaciones del Magisterio Nacional
+Tribunal Administrativo de Transporte (TAM)
+Tribunal Administrativo del Servicio Civil (TASC)
+Tribunal Administrativo Migratorio (TAM)
+Tribunal Aduanero Nacional (TAN)
+Tribunal Ambiental Administrativo (TAD)
+Tribunal de la Carrera Docente (TCD)
+Tribunal de Servicio Civil (TSC)
+Tribunal Fiscal Administrativo
+Tribunal Registral Administrativo
+Tribunal Supremo de Elecciones (TSE)
+Unidad Ejecutora del Programa de Seguridad Ciudadana y Prevención de la Violencia (UEP)
+Universidad de Costa Rica (UCR)
+Universidad Estatal a Distancia (UNED)
+Universidad Nacional (UNA)
+Universidad Técnica Nacional (UTN)
+Vida Plena Operadora de Pensiones Complementarias S.A.

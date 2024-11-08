@@ -26,6 +26,8 @@ pip install scikit-learn
 
 pip install tensorflow
 
+pip install matplotlib
+
 python3 src/main.py
 
 WINDOWS------------------------------------

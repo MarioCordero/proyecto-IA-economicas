@@ -113,10 +113,10 @@
      <string>Agregar proyectos</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="analyzeProyectsButton">
+   <widget class="QPushButton" name="trainModelButton">
     <property name="geometry">
      <rect>
-      <x>710</x>
+      <x>690</x>
       <y>260</y>
       <width>171</width>
       <height>71</height>
@@ -131,7 +131,7 @@
 }</string>
     </property>
     <property name="text">
-     <string>Analizar proyectos</string>
+     <string>Entrenar modelo</string>
     </property>
    </widget>
    <widget class="QLineEdit" name="lineEdit">
@@ -190,6 +190,27 @@ font-size: 30px;</string>
     </property>
     <property name="text">
      <string>Eliminar entradas DB</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="analyzeProyectsButton">
+    <property name="geometry">
+     <rect>
+      <x>890</x>
+      <y>260</y>
+      <width>171</width>
+      <height>71</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton {
+    background-color: #CBCBCB;
+    color: black;
+    border: 1px solid rgb(91, 83, 81);
+	border-radius: 8px;
+}</string>
+    </property>
+    <property name="text">
+     <string>Analizar proyectos</string>
     </property>
    </widget>
   </widget>

@@ -1,0 +1,13 @@
+PERSONAS
+Docente
+Profesor, Profesora
+Maestro, Maestra
+Educador, Educadora
+Estudiante
+Alumno, Alumna
+
+AREAS
+Docencia
+Investigación
+Sedes
+Regionalización

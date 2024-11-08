@@ -2,6 +2,9 @@ import os
 import openpyxl
 import re
 import spacy
+import tensorflow as tf
+import matplotlib.pyplot as plt
+import numpy as np
 from pymongo import MongoClient
 from PyQt5.QtWidgets import QFileDialog, QTableWidgetItem, QPushButton
 from bs4 import BeautifulSoup
@@ -9,7 +12,6 @@ from sklearn.model_selection import train_test_split
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.pipeline import make_pipeline
-import tensorflow as tf
 from tensorflow.keras.layers import Embedding, LSTM, Dense, Bidirectional
 from tensorflow.keras.preprocessing.text import Tokenizer
 from tensorflow.keras.preprocessing.sequence import pad_sequences
@@ -33,12 +35,42 @@ class Model:
         self.tokenizer = Tokenizer(num_words=10000)  # Puedes ajustar el número de palabras
         self.max_length = 100  # Longitud máxima para el padding
 
+    def analyzeData(self):  # Realizar la predicción de etiquetas en analyzeData
+        """
+        # Analiza los antecedentes de los proyectos usando la red neuronal
+        """
+        # ----------------------------------PREPARACIÓN DE DATOS----------------------------------#
 
-    def analyzeData(self): # Analyze antecedentes
+        model = load_model("trainedModel.h5") # Cargar el modelo entrenado
+
+        # with open("bancoEtiquetas.txt", "r", encoding="utf-8") as file: # Leer el archivo de etiquetas
+        #     bancoEtiquetas = [line.strip() for line in file.readlines()] # Una lista de etiquetas disponibles
+
+        projects = self.fetchProjects() # Obtener todos los proyectos de la base de datos
+        antecedentesList = [project.get("antecedentes", "") for project in projects if project.get("antecedentes")] # Obtener solo los antecedentes de los proyectos mostrados
+        
+        # ----------------------------------ANALISIS DE DATOS----------------------------------#
+        # Realizar predicción para cada proyecto en antecedentesList
+        texto_proyecto = ["Ejemplo de texto de proyecto para analizar"]
+        secuencia_proyecto = self.tokenizer.texts_to_sequences(texto_proyecto)
+        texto_proyecto_pad = pad_sequences(secuencia_proyecto, maxlen=100, padding='post', truncating='post')
+        predicciones = model.predict(texto_proyecto_pad)
+        print("Realizando predicción de etiquetas...")
+        
+        # Generar etiquetas propuestas en función de la predicción
+        etiquetas_propuestas = []
+        for i, prediccion in enumerate(predicciones[0]):
+            if prediccion > 0.5:  # Umbral para considerar una etiqueta como aplicable
+                etiquetas_propuestas.append(etiquetas_disponibles[i])
+        print("Etiquetas propuestas:", etiquetas_propuestas)
+
+
+    def trainModel(self): # Analyze antecedentes
         """
-        # Analiza los antecedentes de los proyectos y entrena la red neuronal.
+        # Entrena y guarda la red neuronal
         """
-        # ----------------------------------ENTRENAMIENTO DEL MODELO----------------------------------#
+        # ----------------------------------PREPARACIÓN DE DATOS----------------------------------#
+
         # Necesitamos entradas (each antcedente), en este caso antecedentesList, que es un 
         # arreglo en el que cada posición del arreglo es un antecedente a un proyecto  
         projects = self.fetchProjects() # Obtener todos los proyectos de la base de datos
@@ -47,48 +79,121 @@ class Model:
 
         # Necesitamos salidas esperadas (each antecedente), en este caso vamos a tener 
         # que usar alguna lista perviamente analizada por nosotros de respuestas a cada
-        # antecedente o posición de arreglo
-
-        etiquetas = [
-            "Propuesto por institución",
-            "Propuesto por profesor",
-            "Proyección cultural o artística",
-            "Actividades interdisciplinarias",
-            "Cambio de enfoque o dirección",
-            "Apertura a la comunidad",
-            "Vinculación con la historia del arte"
+        # antecedente o posición de arreglo, esas son etiquetas que usaremos para entrenar
+        # el modelo, o sea, de los proyectos vistos vamos a entrenar a este modelo. 
+        # Definir etiquetas esperadas para cada proyecto en `antecedentesList`
+        etiquetasEsperadas = [
+            ["Historia del Arte"], ["Cultura Popular"], ["Ministerio de Cultura y Juventud"], ["Educación"], ["Escuela de Artes Plásticas"], ["Universidad de Costa Rica"], ["Instituto de Investigaciones en Arte (IIARTE)"], ["Actividades de Difusión y Extensión Cultural"], ["Teatro Nacional de Costa Rica"],                                                                                                                                                         # Proyecto #1  
+            ["Propuesto por institución"], ["Propuesto por profesor"], ["Proyección cultural o artística"], ["Difusión de valores nacionales"], ["Fomento de la colaboración interdisciplinaria"], ["Producción artística anual"], ["Escuelas de la Facultad de Bellas Artes"], ["Obra de Carlos Salazar Herrera"], ["Destinada al público universitario y general"], ["Teatro de Bellas Artes"],                                                                           # Proyecto #2
+            ["Propuesto por institución"], ["Proyección cultural o artística"], ["Patrimonio cultural"], ["Patrimonio natural"], ["Extensión cultural"], ["Conciencia y conservación de herencia cultural"], ["Actividades dirigidas a diversos públicos"], ["Uso de plataformas digitales"], ["Convenio de préstamo cultural"], ["Museo Regional"], ["Educación a la comunidad"],                                                                                          # Proyecto #3
+            ["Proyección cultural o artística"], ["Extensión cultural"], ["Educación comunitaria"], ["Fomento de apreciación musical"], ["Desarrollo de destrezas musicales"], ["Herencia musical regional"], ["Conciertos comunitarios"], ["Fortalecimiento de lazos culturales"], ["Capacitación de integrantes"], ["Presentaciones en escuelas y colegios"], ["Colaboración interinstitucional"],                                                                        # Proyecto #4
+            ["Divulgación cultural"], ["Exposición de expresiones visuales"], ["Promoción de artistas emergentes y consolidados"], ["Espacio alternativo para prácticas culturales"], ["Sensibilización artística"], ["Proyección de quehacer artístico"], ["Participación ciudadana"], ["Descentralización del arte capitalino"], ["Difusión en medios y redes"], ["Alianzas estratégicas"], ["Crecimiento cultural regional"], ["Participación de la Acción Social UCR"]  # Proyecto #5
         ]
 
-        # Etiquetas ficticias (0 o 1) para entrenamiento de ejemplo; en un caso real, deberías tener etiquetas reales.
-        labels = [0 if i % 2 == 0 else 1 for i in range(len(antecedentesList))]
-        
-        # Preparar datos y etiquetas
-        padded_sequences = self.prepareData(antecedentesList)
-        X_train, X_test, y_train, y_test = train_test_split(padded_sequences, labels, test_size=0.2, random_state=42)
-        
-        # Llamada a buildModel para crear la arquitectura de la red
-        model = self.buildModel()
-        
-        # Entrenamiento del modelo
-        model.fit(X_train, y_train, epochs=5, batch_size=32, validation_data=(X_test, y_test))
-        
+        with open( "model/bancoEtiquetas.txt" , "r") as file: # Abrir banco de etiquetas
+            etiquetasDisponibles = [line.strip() for line in file if line.strip()]  # Lee y limpia cada línea
+
+        # Convertir etiquetas esperadas a formato binario
+        numClasses = len(etiquetasDisponibles) # Número total de categorías que hay en base al banco de palabras
+        matrizEtiquetasBinarias = np.zeros((len(etiquetasEsperadas), numClasses)) # Cada fila representa un proyecto, cada columna representa una etiqueta única de etiquetasDisponibles
+
+        for i, etiquetas in enumerate(etiquetasEsperadas): # En la matriz binaria marcar las etiquetas que están en esos proyectos
+            for etiqueta in etiquetas:
+                if etiqueta in etiquetasDisponibles:
+                    matrizEtiquetasBinarias[i][etiquetasDisponibles.index(etiqueta)] = 1
+
+        # Tokenización y cosas necesarias para que la red neuronal pueda hacer las asociaciones correctas
+        tokenizer = Tokenizer(num_words=10000)  # Número máximo de palabras
+        tokenizer.fit_on_texts(antecedentesList)  # Ajusta el tokenizador con tus datos de texto
+        sequences = tokenizer.texts_to_sequences(antecedentesList) # Convertir el texto a secuencias
+        maxLength = 100  # Define la longitud máxima de las secuencias
+        inputData = pad_sequences(sequences, maxlen=maxLength)
+
+
+        # CHATGPT
+        #
+        #
+        # tokenizer = Tokenizer(num_words=10000, oov_token="<OOV>") # Tokenización y secuenciación del texto, 10 000 palabras de vocabulario, OOV Out Of Vocabulary, todas las palabras que no estén en las 10 000 más comunes
+        # tokenizer.fit_on_texts(antecedentesList) # texts_to_sequences convierte cada texto (en este caso, cada elemento en antecedentesList) en una secuencia de números. Cada número en la secuencia representa una palabra en el texto original
+        # textoEntrada = tokenizer.texts_to_sequences(antecedentesList) # onvierte cada texto (en este caso, cada elemento en antecedentesList) en una secuencia de números. Cada número en la secuencia representa una palabra en el texto original, representación numérica para las redes neuronales
+        # textoEntrada = pad_sequences(textoEntrada, maxlen=100, padding='post', truncating='post') #  Las secuencias de texto (anteriores) pueden tener longitudes variables; algunos textos son más largos y otros más cortos. pad_sequences ajusta todas las secuencias a una longitud fija (maxlen=100 en este caso) para que sean del mismo tamaño
+        # # Convertir etiquetas esperadas a un formato binario
+        # etiquetasEsperadas = []
+        # for etiqueta in etiquetas:
+        #     etiqueta_binaria = [1 if tag in etiqueta else 0 for tag in [
+        #         "Propuesto por institución", "Propuesto por profesor", "Proyección cultural o artística",
+        #         "Actividades interdisciplinarias", "Cambio de enfoque o dirección",
+        #         "Apertura a la comunidad", "Vinculación con la historia del arte"
+        #     ]]
+        #     etiquetasEsperadas.append(etiqueta_binaria)
+        # etiquetasEsperadas = np.array(etiquetasEsperadas)
+        #
+        #
+        # CHATGPT
+
+        # ----------------------------------CREACIÓN DEL MODELO-----------------------------------#
+
+        model = Sequential([
+            Embedding( input_dim = 10000 , output_dim = 64 , input_length = maxLength ), # Convierte cada palabra (representada como un número entero) en un vector de características de tamaño output_dim. Este vector es una representación densa que permite al modelo entender relaciones y similitudes entre palabras.
+            Bidirectional( LSTM( 64 , return_sequences = True ) ), # Procesa las secuencias de palabras en ambas direcciones, es decir, de inicio a fin y de fin a inicio, para capturar patrones en ambas direcciones. 
+            Bidirectional( LSTM( 32 ) ), # Esta segunda capa LSTM bidireccional permite que el modelo refine su interpretación de los patrones en el texto al reducir la secuencia procesada por la primera capa.
+            Dense( 32 , activation = 'relu' ), # Esta capa completamente conectada permite al modelo interpretar y capturar patrones más complejos en los datos.
+            Dense( numClasses , activation = 'sigmoid' ) # Genera la salida final del modelo, que consiste en la probabilidad de que cada etiqueta esté presente en la entrada.
+        ])
+
+        model.compile( # Compilar el modelo
+            optimizer   = tf.keras.optimizers.Adam(0.1),
+            loss        = 'binary_crossentropy'
+        )
+
+        # ---------------------------------- ENTRENAMIENTO DEL MODELO  ---------------------------------- #
+        print("Tamaño de inputData:", len(inputData))
+        print("Tamaño de matrizEtiquetasBinarias:", len(matrizEtiquetasBinarias))
+        historial = model.fit(inputData, matrizEtiquetasBinarias, epochs=1000, verbose=False)  
+        print("Entrenamiento completado!")
+
         # Guardar el modelo entrenado
-        model.save("trained_model.h5")
-        print("Entrenamiento completado y modelo guardado en 'trained_model.h5'")
+        model.save("trainedModel.h5")
+        print("Modelo guardado en 'trainedModel.h5'!")
+
+        # Graficar la pérdida de entrenamiento
+        plt.xlabel("Época")
+        plt.ylabel("Pérdida")
+        # plt.plot(historial.history["loss"])
 
 
-    def normalizeText(self, text):
+        # ---------------------------------- PROPUESTA DE ETIQUETAS NUEVAS ---------------------------------- #
+        # CHATGPT
+        #
+        #
+        # texto_proyecto = ["Ejemplo de texto de proyecto para analizar"]  # Ejemplo de entrada # Realizar predicciones en nuevos textos
+        # secuencia_proyecto = tokenizer.texts_to_sequences(texto_proyecto)
+        # texto_proyecto_pad = pad_sequences(secuencia_proyecto, maxlen=100, padding='post', truncating='post')
+        # predicciones = model.predict(texto_proyecto_pad)
+
+        # # Generar etiquetas propuestas en función de la predicción
+        # etiquetas_disponibles = [
+        #     "Propuesto por institución", "Propuesto por profesor", "Proyección cultural o artística",
+        #     "Actividades interdisciplinarias", "Cambio de enfoque o dirección",
+        #     "Apertura a la comunidad", "Vinculación con la historia del arte"
+        # ]
+        # etiquetas_propuestas = []
+        # for i, prediccion in enumerate(predicciones[0]):
+        #     if prediccion > 0.5:  # Umbral para considerar una etiqueta como aplicable
+        #         etiquetas_propuestas.append(etiquetas_disponibles[i])
+        # print("Etiquetas propuestas:", etiquetas_propuestas)  # Imprimir etiquetas propuestas para revisión
+        #
+        #
+        # CHATGPT
+
+
+    def loadWordBank(ruta):
         """
-        # Normaliza el texto: convierte a minúsculas, elimina puntuación y stopwords.
+        # Carga banco de palabras que son posibles respuestas a los proyectos
         """
-        # Convertir a minúsculas
-        text = text.lower()
-        # Eliminar puntuación
-        text = re.sub(r'[^\w\s]', '', text)
-        # Eliminar palabras irrelevantes
-        stopwords = self.nlp.Defaults.stop_words
-        tokens = [word for word in text.split() if word not in stopwords]
-        return " ".join(tokens)
+        with open(ruta, 'r') as archivo:
+            palabras = [linea.strip() for linea in archivo if linea.strip()]
+        return palabras
     
 
     def savetoFile(self, normalizedText, fileName):        
@@ -99,61 +204,6 @@ class Model:
         with open(fileName, 'w', encoding='utf-8') as file:
             # Escribe el texto normalizado en el archivo
             file.write(normalizedText)
-    
-    def prepareData(self, antecedentes_list):
-        """
-        # Tokeniza y prepara los datos de texto para el análisis.
-        """
-        self.tokenizer.fit_on_texts(antecedentes_list) # Tokenizar el texto
-
-        sequences = self.tokenizer.texts_to_sequences(antecedentes_list) 
-
-        padded_sequences = pad_sequences(sequences, maxlen=self.max_length, padding='post')
-        
-        return padded_sequences
-    
-    def buildModel(self):
-        """
-        # Crea un modelo secuencial de Keras con una capa LSTM para analizar texto.
-        """
-        model = Sequential([
-            Embedding(input_dim=10000, output_dim=64, input_length=self.max_length),
-            Bidirectional(LSTM(64, return_sequences=True)),
-            Bidirectional(LSTM(32)),
-            Dense(32, activation='relu'),
-            Dense(1, activation='sigmoid')  # Cambiar a 'softmax' si tienes múltiples categorías
-        ])
-        
-        model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
-        return model
-    
-    def analyzeAllAntecedentes(self, antecedentes_list):
-        """
-        # Analiza todo el texto combinado de la columna "antecedentes".
-        """
-        combined_text = " ".join(antecedentes_list)
-        padded_data = self.prepareData([combined_text])
-
-        # Crear el modelo y entrenar en el texto combinado (si tienes etiquetas para entrenamiento)
-        model = self.buildModel()
-        # model.fit(padded_data, labels)  # Necesitas etiquetas si estás entrenando supervisadamente
-
-        # Para predicción o embeddings:
-        embedding_output = model.predict(padded_data)
-        print(f"Embedding de todo el texto combinado: {embedding_output}")
-
-
-    def analyzeEachAntecedente(self, antecedentes_list):
-        """
-        # Analiza cada texto individual en la columna "antecedentes".
-        """
-        padded_data = self.prepareData(antecedentes_list)
-        model = self.buildModel()
-        
-        # Para cada texto individual
-        for idx, sequence in enumerate(padded_data):
-            prediction = model.predict(sequence.reshape(1, -1))
-            print(f"Predicción para el proyecto {idx + 1}: {prediction}")
 
 
     def addXLSX(self, filePath):
@@ -239,3 +289,16 @@ class Model:
         # self.savetoFile(capitalizedText, "capitalizedText.txt") # Archivo con texto normalizado
         properNouns = [ent.text for ent in doc.ents if ent.label_ == "PERSON"] # Extraer nombres propios
         return properNouns
+
+    def normalizeText(self, text): # UNUSED
+        """
+        # Normaliza el texto: convierte a minúsculas, elimina puntuación y stopwords.
+        """
+        # Convertir a minúsculas
+        text = text.lower()
+        # Eliminar puntuación
+        text = re.sub(r'[^\w\s]', '', text)
+        # Eliminar palabras irrelevantes
+        stopwords = self.nlp.Defaults.stop_words
+        tokens = [word for word in text.split() if word not in stopwords]
+        return " ".join(tokens)
